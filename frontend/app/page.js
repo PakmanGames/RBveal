@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Top Navigation */}
-      <nav className="bg-[#006AC3]">
+      <nav className="bg-rbcblue">
         <div className="container mx-auto">
           {/* Main Nav */}
           <div className="flex items-center justify-between py-3 px-4">
@@ -32,32 +32,6 @@ export default function Home() {
                 <span className="text-white font-semibold">
                   Phishing Simulator
                 </span>
-              </Link>
-            </div>
-            <div className="hidden md:flex items-center space-x-6">
-              <Link
-                href="#about"
-                className="text-white text-sm hover:text-gray-200"
-              >
-                About
-              </Link>
-              <Link
-                href="#how-it-works"
-                className="text-white text-sm hover:text-gray-200"
-              >
-                How It Works
-              </Link>
-              <Link
-                href="#start-simulation"
-                className="text-white text-sm hover:text-gray-200"
-              >
-                Start Simulation
-              </Link>
-              <Link
-                href="#resources"
-                className="text-white text-sm hover:text-gray-200"
-              >
-                Fraud Resources
               </Link>
             </div>
           </div>
@@ -76,12 +50,14 @@ export default function Home() {
                 1 in 3 Canadians have encountered phishing attempts.
                 <span className="block mt-2">Are you prepared?</span>
               </h1>
-              <Button
-                size="lg"
-                className="bg-yellow-400 text-[#006AC3] hover:bg-yellow-300"
-              >
-                Start Your Simulation
-              </Button>
+              <Link href="/start">
+                <Button
+                  size="lg"
+                  className="bg-yellow-400 text-[#006AC3] hover:bg-yellow-300"
+                >
+                  Start Your Simulation
+                </Button>
+              </Link>
             </div>
             <div className="relative">
               <div className="bg-white p-6 rounded-lg shadow-xl">

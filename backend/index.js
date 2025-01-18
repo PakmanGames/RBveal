@@ -101,6 +101,50 @@ app.get('/api/callStatus', (req, res) => {
     }
 });
 
+
+
+// EMAIL BACKEND STUFF
+
+
+// Route to send an email
+app.post("/send-email", async (req, res) => {
+  const { email, subject, message } = req.body;
+
+  // Validate input
+  if (!email || !subject || !message) {
+    return res.status(400).json({ message: "All fields (email, subject, message) are required." });
+  }
+
+  try {
+    // Configure the transporter for Gmail
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USER, // Your Gmail address
+        pass: process.env.EMAIL_PASS, // Your Gmail app password
+      },
+    });
+
+    // Send email
+    await transporter.sendMail({
+      from: `RBC Royal Bank" <${process.env.EMAIL_USER}>`, // Use authenticated email
+      to: email, // Recipient's email
+      date: new Date().toISOString(), // Date of the email
+      subject: subject, // Email subject
+      html: message,
+    });
+
+    // Respond with success
+    res.status(200).json({ message: "Email sent successfully!" });
+  } catch (error) {
+    // Handle errors
+    console.error("Error sending email:", error.message);
+    res.status(500).json({ message: `Failed to send email: ${error.message}` });
+  }
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}/`);
 });
