@@ -47,6 +47,7 @@ async function readTwiMLFile() {
     }
 }
 
+// call the user
 app.get('/api/call', async (req, res) => {
     try {
         const twimlContent = await readTwiMLFile();
@@ -55,6 +56,9 @@ app.get('/api/call', async (req, res) => {
             twiml: twimlContent,
             to: process.env.TWILIO_USER_PHONE_NUMBER,
             from: process.env.TWILIO_PHONE_NUMBER,
+            statusCallback: "http://localhost:8080/api/callStatus/",
+            statusCallbackEvent: ["completed"],
+            statusCallbackMethod: "POST",
         })
         .then(call => res.json({ success: true, callSid: call.sid }))
         .catch(error => {
@@ -63,6 +67,37 @@ app.get('/api/call', async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+let callStatus = 'pending';
+let lastCallFrom = '';
+let lastCallTo = '';
+
+// post the call status
+app.post('/api/callStatus', (req, res) => {
+    const { CallSid, CallStatus, To, From } = req.body;
+    callStatus = CallStatus;
+    lastCallFrom = From;
+    lastCallTo = To;
+    console.log('CallSid:', CallSid);
+    console.log('CallStatus:', CallStatus);
+
+    if (CallStatus === 'completed') {
+        console.log(`Call from ${From} to ${To} has been completed.`);
+    }
+
+    res.status(200).send('Status received');
+});
+
+// get the call status
+app.get('/api/callStatus', (req, res) => {
+    if (callStatus === 'completed') {
+        console.log(`Call from ${lastCallFrom} to ${lastCallTo} has been completed.`);
+        res.json({ status: 'completed', details: callStatus });
+    } else {
+        console.log('Call is still in progress.');
+        res.json({ status: 'pending', details: callStatus });
     }
 });
 
