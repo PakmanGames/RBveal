@@ -27,15 +27,6 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = twilio(accountSid, authToken);
 
-// app.get('/api/call', (req, res) => {
-//     client.calls.create({
-//         url: "http://demo.twilio.com/docs/voice.xml",
-//         to: process.env.TWILIO_USER_PHONE_NUMBER,
-//         from: process.env.TWILIO_PHONE_NUMBER,
-//       })
-//       .then(call => console.log(call.sid));
-// });
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -59,8 +50,8 @@ app.get('/api/call', async (req, res) => {
             twiml: twimlContent,
             to: process.env.TWILIO_USER_PHONE_NUMBER,
             from: process.env.TWILIO_PHONE_NUMBER,
-            statusCallback: "http://localhost:8080/api/callStatus/",
-            statusCallbackEvent: ["completed"],
+            statusCallback: `${process.env.TAILSCALE_PUBLIC_URL}api/callStatus/`,
+            statusCallbackEvent: ["completed"], // post the call status only when it's completed
             statusCallbackMethod: "POST",
         })
         .then(call => res.json({ success: true, callSid: call.sid }))
@@ -92,6 +83,34 @@ app.post('/api/callStatus', (req, res) => {
 
     res.status(200).send('Status received');
 });
+
+// put the call status to pending
+app.put('/api/callStatus', (req, res) => {
+    callStatus = 'pending';
+    console.log('Call status has been reset to pending.');
+    res.json({ status: 'pending', details: callStatus });
+});
+
+// const resetCallStatus = async () => {
+//     try {
+//       const response = await fetch(`${process.env.TAILSCALE_PUBLIC_URL}/api/callStatus`, {
+//         method: 'PUT',
+//         headers: {
+//           'Content-Type': 'application/json'
+//         }
+//       });
+      
+//       const data = await response.json();
+//       console.log('Status reset:', data);
+//       return data;
+//     } catch (error) {
+//       console.error('Error resetting call status:', error);
+//       throw error;
+//     }
+// };
+  
+//   // Usage:
+// await resetCallStatus();
 
 // get the call status
 app.get('/api/callStatus', (req, res) => {
