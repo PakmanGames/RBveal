@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <!-- Initial message -->
   <Say voice="alice">Hello. This is an automated message regarding your recent transaction.</Say>
+  <Pause length="1" />
+  
+  <Say voice="alice">To complete your payment, please e-transfer three hundred dollars to the following email address.</Say>
+  <Pause length="1" />
+  
+  <Say voice="alice" spell-out="true">definitely legit email at scammer dot com</Say>
+  <Pause length="2" />
+  
+  <Say voice="alice">Please ensure the exact amount is transferred to avoid delays in processing your request.</Say>
   <Pause length="3" />
   
-  <!-- First instruction -->
-  <Say voice="alice">To complete your payment, please e-transfer the amount to the following email address.</Say>
-  <Pause length="4" />
-  
-  <Say voice="alice" spell-out="true">placeholder email at example dot com</Say>
-  <Pause length="4" />
-  
-  <!-- Simulating a response wait -->
-  <Say voice="alice">Please ensure the exact amount is transferred to avoid delays in processing your request.</Say>
-  <Pause length="4" />
-  
-  <!-- Closing the call -->
   <Say voice="alice">If you have any questions, please contact our support team. Thank you.</Say>
-  <Pause length="4" />
+  <Pause length="1" />
   
   <Say voice="alice">Goodbye.</Say>
   <Hangup />
