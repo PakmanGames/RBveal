@@ -15,6 +15,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+const rbcLogo = "https://i.imgur.com/g4L5Xfu.png";
 
 export default function StartSimulation() {
   const router = useRouter();
@@ -35,7 +36,7 @@ export default function StartSimulation() {
 
   const sendEmail = async () => {
     try {
-      const response = await fetch("http://localhost:3001/send-email", {
+      const response = await fetch("http://localhost:8080/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,36 +44,51 @@ export default function StartSimulation() {
         body: JSON.stringify({
           email: formData.email,
           subject: "Attention: Policy update for student accounts",
-          message: `<table align="center" width="600" cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; border-collapse: collapse; margin: auto;">
-            <tr>
-              <td style="padding: 20px; text-align: center;">
-                <h1 style="color: #333; font-size: 24px;">UPDATES TO OUR STUDENT ACCOUNT POLICY</h1>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 20px;">
-                <p>Dear ${formData.name},</p>
-                <p>
-                  We are notifying you of a recent change to the policy regarding student accounts for online shopping. Due to this update, your account currently shows <strong>non-sufficient funds</strong> to proceed with further transactions.
-                </p>
-                <p>
-                  To avoid disruptions, please review the updated policy details and verify your account information. These changes will take effect immediately.
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 20px; text-align: center;">
-                <a href="http://example.com" style="display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
-                  Learn More
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 20px; text-align: center; font-size: 12px; color: #777;">
-                <p>&copy; 2025 RBC Financial Group. All rights reserved.</p>
-              </td>
-            </tr>
-          </table>`,
+          message: `<table align="center" width="600" cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; border-collapse: collapse; margin: auto; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+  <!-- Logo Row -->
+  <tr>
+    <td style="padding: 20px; text-align: center;">
+      <img src="${rbcLogo}" alt="RBC Logo" style="max-width: 200px; height: auto; margin-top: 20px;">
+    </td>
+  </tr>
+
+  <!-- Header Row -->
+  <tr>
+    <td style="padding: 20px; text-align: center;">
+      <h1 style="color: #333; font-size: 24px;">UPDATES TO OUR STUDENT ACCOUNT POLICY</h1>
+    </td>
+  </tr>
+
+  <!-- Content Row -->
+  <tr>
+    <td style="padding: 20px;">
+      <p>Dear valued customer,</p>
+      <p>
+        We are notifying you of a recent change to the policy regarding student accounts for online shopping. Due to this update, your account currently shows <strong>non-sufficient funds</strong> to proceed with further transactions.
+      </p>
+      <p>
+        To avoid disruptions, please review the updated policy details and verify your account information within <strong>24 hours</strong>. Failure to do so may result in a temporary suspension of your account.
+      </p>
+    </td>
+  </tr>
+
+  <!-- Button Row -->
+  <tr>
+    <td style="padding: 20px; text-align: center;">
+      <a href="http://example.com" style="display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px; font-family: 'Arial', sans-serif; 
+              font-weight: bold;">
+        Learn More
+      </a>
+    </td>
+  </tr>
+
+  <!-- Footer Row -->
+  <tr>
+    <td style="padding: 20px; text-align: center; font-size: 12px; color: #777; border-top: 1px solid #ddd;">
+      <p>&copy; 2025 RBC Financial Group. All rights reserved.</p>
+    </td>
+  </tr>
+</table>`,
         }),
       });
 

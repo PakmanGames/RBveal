@@ -4,6 +4,9 @@ import cors from 'cors';
 import twilio from 'twilio';
 import fs from 'fs';
 
+import nodemailer from "nodemailer";
+
+
 import { readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';

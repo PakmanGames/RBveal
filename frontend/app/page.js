@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   AlertTriangle,
   Shield,
@@ -11,55 +14,93 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  ExclamationTriangleIcon,
+  ShieldCheckIcon,
+  PlayIcon,
+  LightBulbIcon,
+  DocumentTextIcon,
+} from "@heroicons/react/24/outline";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       {/* Top Navigation */}
-      <nav className="bg-rbcblue">
+      <nav className="bg-white/10 backdrop-blur-md border border-white/20 fixed z-50 left-1/2 transform -translate-x-1/2 w-3/4 rounded-2xl shadow-2xl mt-4">
         <div className="container mx-auto">
-          {/* Main Nav */}
-          <div className="flex items-center justify-between py-3 px-4">
-            <div className="flex items-center">
-              <Link href="/" className="mr-8 flex items-center gap-2">
-                <Image
-                  src="rbc_logo.svg"
-                  alt="RBC Logo"
-                  width={120}
-                  height={40}
-                  className="h-10 w-auto"
-                />
-                <span className="text-white font-semibold">
-                  Phishing Simulator
-                </span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+          <div className="flex items-center justify-between py-4 px-4">
+            <Link href="/" className="flex items-center gap-2">
+              <motion.span
+                className="text-white font-black text-3xl md:text-4xl"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                RBveal
+              </motion.span>
+            </Link>
 
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#006AC3] to-[#0051A5] relative overflow-hidden">
-        <div className="container mx-auto px-4 py-16 md:py-24">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="relative z-10">
-              <div className="inline-block bg-yellow-400 text-sm font-medium px-3 py-1 rounded-full mb-4">
-                RBC Security Training
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                1 in 3 Canadians have encountered phishing attempts.
-                <span className="block mt-2">Are you prepared?</span>
-              </h1>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link href="/start">
                 <Button
                   size="lg"
-                  className="bg-yellow-400 text-[#006AC3] hover:bg-yellow-300"
+                  className="bg-white p-6 text-xl text-rbcblue font-black hover:bg-rbcdarkyellow hover:text-white transition-all duration-300"
                 >
                   Start Your Simulation
                 </Button>
               </Link>
+            </motion.div>
+          </div>
+        </div>
+      </nav>
+
+      <div
+        style={{
+          backgroundImage: "url('/bg.svg')",
+          backgroundSize: "cover",
+          backgroundPosition: "50% 80%",
+        }}
+        className=" min-h-screen flex justify-center items-center pt-16"
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row gap-12 items-center">
+            <div className="bg-white p-12 rounded-2xl shadow-2xl">
+              <motion.div
+                className="lg:w-1/2"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <div className="inline-block bg-rbcdarkyellow text-sm font-bold px-3 py-1 rounded-xl mb-4">
+                  RBC Security Training
+                </div>
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-rbcyellow">
+                  1 in 3 Canadians have encountered phishing attempts.
+                  <span className="block mt-2 text-rbcblue">
+                    Are you prepared?
+                  </span>
+                </h1>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link href="/start">
+                    <Button
+                      size="lg"
+                      className="bg-white p-6 text-xl text-rbcblue font-black hover:bg-rbcdarkyellow hover:text-white transition-all duration-300"
+                    >
+                      Start Your Simulation
+                    </Button>
+                  </Link>
+                </motion.div>
+              </motion.div>
             </div>
-            <div className="relative">
+            <motion.div
+              className="lg:w-1/2"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
               <div className="bg-white p-6 rounded-lg shadow-xl">
                 <div className="flex items-center justify-between mb-4 border-b pb-2">
                   <div>
@@ -76,7 +117,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <p className="text-sm text-gray-800">
+                  <p className="text-sm text-gray-800 font-semibold">
                     Subject: Urgent Security Alert - Account Verification
                     Required
                   </p>
@@ -87,222 +128,80 @@ export default function Home() {
                       verify your identity immediately by clicking the link
                       below:
                     </p>
-                    <p className="text-blue-600 underline">
+                    <p className="text-blue-600 underline cursor-pointer">
                       https://secure-rbc-banking.com/verify
                     </p>
-                    <p className="bg-yellow-100 p-2 rounded text-xs">
+                    <motion.p
+                      className="bg-yellow-100 p-2 rounded text-xs"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 1 }}
+                    >
                       Warning: This is a suspicious URL that doesn't match RBC's
                       official domain
-                    </p>
+                    </motion.p>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
 
       {/* Features Section */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <div className="py-16 bg-gray-100">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Play className="h-6 w-6 text-[#006AC3]" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                Interactive Learning
-              </h3>
-              <p className="text-gray-600">
-                Practice real-life phishing scenarios tailored for students and
-                RBC customers.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Brain className="h-6 w-6 text-[#006AC3]" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                AI-Driven Simulations
-              </h3>
-              <p className="text-gray-600">
-                Experience scam calls and phishing emails in a safe environment.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <FileText className="h-6 w-6 text-[#006AC3]" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                Personalized Reports
-              </h3>
-              <p className="text-gray-600">
-                Learn how to spot red flags and protect yourself.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Fraud Prevention Stats
+          <h2 className="text-3xl font-bold text-center mb-12 text-rbcblue">
+            Why Choose RBVeal?
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-[#006AC3] mb-2">47%</div>
-              <p className="text-gray-600">
-                of Canadians have experienced at least one type of fraud in
-                their lifetime
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-[#006AC3] mb-2">
-                $380M
-              </div>
-              <p className="text-gray-600">
-                in fraud losses reported by Canadians in 2021
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-[#006AC3] mb-2">92%</div>
-              <p className="text-gray-600">
-                success rate in preventing fraud attempts with proper training
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: ShieldCheckIcon,
+                title: "Realistic Simulations",
+                description: "Experience true-to-life phishing scenarios",
+              },
+              {
+                icon: PlayIcon,
+                title: "Interactive Learning",
+                description: "Engage with our platform for hands-on training",
+              },
+              {
+                icon: LightBulbIcon,
+                title: "Adaptive Difficulty",
+                description: "Challenges that grow with your skills",
+              },
+              {
+                icon: DocumentTextIcon,
+                title: "Comprehensive Reports",
+                description: "Detailed feedback on your performance",
+              },
+              {
+                icon: ExclamationTriangleIcon,
+                title: "Risk Assessment",
+                description: "Identify your vulnerabilities",
+              },
+              {
+                icon: Globe,
+                title: "Always Updated",
+                description: "Stay current with the latest phishing tactics",
+              },
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                className="bg-white p-6 rounded-lg shadow-md"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <feature.icon className="h-12 w-12 text-rbcblue mb-4" />
+                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-[#006AC3] py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">
-            Ready to test your fraud detection skills?
-          </h2>
-          <Button
-            size="lg"
-            className="bg-yellow-400 text-[#006AC3] hover:bg-yellow-300"
-          >
-            Start Your Simulation Now
-          </Button>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <Shield className="h-6 w-6" />
-                <span className="font-bold">RBC Phishing Simulator</span>
-              </div>
-              <p className="text-sm text-gray-400">
-                Created for RBC Hackathon 2024.
-                <br />
-                Helping Canadians stay safe online.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Resources</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="#"
-                    className="text-sm text-gray-400 hover:text-white"
-                  >
-                    Fraud Prevention Tips
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-sm text-gray-400 hover:text-white"
-                  >
-                    Security Center
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-sm text-gray-400 hover:text-white"
-                  >
-                    Report Fraud
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Legal</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="#"
-                    className="text-sm text-gray-400 hover:text-white"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-sm text-gray-400 hover:text-white"
-                  >
-                    Terms of Service
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-sm text-gray-400 hover:text-white"
-                  >
-                    Cookie Policy
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Contact</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="#"
-                    className="text-sm text-gray-400 hover:text-white"
-                  >
-                    Help Center
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-sm text-gray-400 hover:text-white"
-                  >
-                    Support
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-sm text-gray-400 hover:text-white"
-                  >
-                    Contact Us
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-            <p>
-              © {new Date().getFullYear()} Royal Bank of Canada. All rights
-              reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      </div>
     </div>
   );
 }

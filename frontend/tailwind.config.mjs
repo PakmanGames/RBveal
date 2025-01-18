@@ -11,7 +11,9 @@ export default {
       colors: {
 			rbcgray: "#F3F4F5",
 		  rbcdarkgray: "#444444",
-        rbcblue: "#2C68BD",
+      rbcblue: "#2C68BD",
+      rbcyellow: "#f9e04b",
+      rbcdarkyellow: "#f5bc41",
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
