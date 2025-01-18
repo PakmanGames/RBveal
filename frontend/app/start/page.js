@@ -33,20 +33,67 @@ export default function StartSimulation() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const sendEmail = async () => {
     try {
       const response = await fetch("http://localhost:8080/send-email", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           email: formData.email,
           subject: "Attention: Policy update for student accounts",
-          message: `<table align="center" width="600" cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; border-collapse: collapse; margin: auto; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-            <!-- Email template content remains the same -->
-          </table>`,
+          message: ` <table align="center" width="600" cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; border-collapse: collapse; margin: auto; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+  <!-- Logo Row -->
+  <tr>
+    <td style="padding: 20px; text-align: center;">
+      <img src="https://i.imgur.com/g4L5Xfu.png" alt="RBC Logo" style="max-width: 200px; height: auto; margin-top: 20px;">
+    </td>
+  </tr>
+
+  <!-- Header Row -->
+  <tr>
+    <td style="padding: 20px; text-align: center;">
+      <h1 style="color: #333; font-size: 24px;">UPDATES TO OUR STUDENT ACCOUNT POLICY</h1>
+    </td>
+  </tr>
+
+  <!-- Content Row -->
+  <tr>
+    <td style="padding: 20px;">
+      <p>Dear valued customer</p>
+      <p>
+        We are notifying you of a recent change to the policy regarding student accounts for online shoping, Due to this update, your account currently shows <strong>non-sufficient funds</strong> to proceed with further transactions.
+      </p>
+      <p>
+        To avoid disruptions, please review the updated policy details and verify your acount information within <strong>24 hours</strong>. Failure to do so may result in a temporary suspension of your account.
+      </p>
+    </td>
+  </tr>
+
+  <!-- Button Row -->
+  <tr>
+    <td style="padding: 20px; text-align: center;">
+      <a href="http://localhost:3000/home" style="display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px; font-family: 'Arial', sans-serif; 
+              font-weight: bold;">
+        Learn More
+      </a>
+    </td>
+  </tr>
+
+  <!-- Footer Row -->
+  <tr>
+    <td style="padding: 20px; text-align: center; font-size: 12px; color: #777; border-top: 1px solid #ddd;">
+      <p>&copy; 2025 RBC Financial Group. All rights reserved.</p>
+    </td>
+  </tr>
+</table>`,
         }),
       });
 
@@ -60,26 +107,9 @@ export default function StartSimulation() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Form submitted:", formData);
     await sendEmail();
   };
-
-  const FormField = ({ label, id, type = "text", placeholder }) => (
-    <div className="space-y-2">
-      <Label htmlFor={id} className="text-lg">
-        {label}
-      </Label>
-      <Input
-        id={id}
-        name={id}
-        type={type}
-        value={formData[id]}
-        onChange={handleInputChange}
-        placeholder={placeholder}
-        required
-        className="h-12 text-lg"
-      />
-    </div>
-  );
 
   return (
     <div
@@ -122,27 +152,68 @@ export default function StartSimulation() {
               phishing simulation experience.
             </CardDescription>
           </CardHeader>
-
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <FormField label="Name" id="name" placeholder="John Doe" />
-              <FormField
-                label="Email"
-                id="email"
-                type="email"
-                placeholder="johndoe@example.com"
-              />
-              <FormField
-                label="Phone Number"
-                id="phoneNumber"
-                type="tel"
-                placeholder="123-456-7890"
-              />
-              <FormField
-                label="Trusted Individual"
-                id="trustedIndividual"
-                placeholder="e.g. Taylor Swift"
-              />
+            <form onSubmit={handleSubmit}>
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="text-lg">
+                    Name
+                  </Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="John Doe"
+                    required
+                    className="h-12 text-lg"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-lg">
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="johndoe@example.com"
+                    required
+                    className="h-12 text-lg"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phoneNumber" className="text-lg">
+                    Phone Number
+                  </Label>
+                  <Input
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    type="tel"
+                    value={formData.phoneNumber}
+                    onChange={handleInputChange}
+                    placeholder="123-456-7890"
+                    required
+                    className="h-12 text-lg"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="trustedIndividual" className="text-lg">
+                    Trusted Individual
+                  </Label>
+                  <Input
+                    id="trustedIndividual"
+                    name="trustedIndividual"
+                    value={formData.trustedIndividual}
+                    onChange={handleInputChange}
+                    placeholder="e.g. Taylor Swift"
+                    required
+                    className="h-12 text-lg"
+                  />
+                </div>
+              </div>
             </form>
           </CardContent>
           <CardFooter className="pt-6">
