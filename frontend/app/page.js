@@ -25,7 +25,7 @@ import {
 export default function Home() {
 
   const StepLabel = ({ number }) => (
-    <div className=" animate-pulse relative w-1/3 top-8 right-4 bg-red-600 text-2xl text-center text-white font-bold px-4 py-2 rounded-lg z-10 shadow-2xl">Step {number}
+    <div className=" relative w-1/3 top-8 right-4 bg-red-600 text-2xl text-center text-white font-bold px-4 py-2 rounded-lg z-10 shadow-2xl">Step {number}
     </div>
   );
 
@@ -33,6 +33,9 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Top Navigation */}
+
+
+      
       <nav className="bg-white/90 backdrop-blur-md border border-white/20 fixed z-50 left-1/2 transform -translate-x-1/2 w-3/4 rounded-2xl shadow-2xl mt-4">
         <div className="container mx-auto">
           <div className="flex items-center justify-between py-4 px-4">
@@ -115,7 +118,7 @@ export default function Home() {
                     <Link href="/start">
                       <Button
                         size="lg"
-                        className="bg-red-600 p-12 text-4xl w-full text-white font-black hover:bg-green-500 transition-all duration-300"
+                        className="bg-rbcblue p-12 text-4xl w-full text-white font-black hover:bg-green-500 transition-all duration-300"
                       >
                         Start Your Simulation
                       </Button>
@@ -353,7 +356,7 @@ export default function Home() {
                           </div>
 
                           {/* Call Buttons */}
-                          <div className="flex justify-center gap-12 mt-12">
+                          <div className="flex justify-center gap-12 mt-36 pt-12">
                             {/* Decline Button */}
                             <div className="flex flex-col items-center">
                               <div className="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center">
