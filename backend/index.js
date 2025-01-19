@@ -17,11 +17,11 @@ import { dirname, join } from "path";
 import { readFile } from "fs/promises";
 
 // Import GPT services
-import GptService from "./call-gpt/services/gpt-service.js";
-import StreamService from "./call-gpt/services/stream-service.js";  // Changed to default import
-import TranscriptionService from "./call-gpt/services/transcription-service.js"; // Changed to default import
-import TextToSpeechService from "./call-gpt/services/tts-service.js";
-import { makeOutBoundCall } from "./call-gpt/scripts/outbound-call.js";
+import GptService from "./ai-scammer/services/gpt-service.js";
+import StreamService from "./ai-scammer/services/stream-service.js";  // Changed to default import
+import TranscriptionService from "./ai-scammer/services/transcription-service.js"; // Changed to default import
+import TextToSpeechService from "./ai-scammer/services/tts-service.js";
+import { makeOutBoundCall } from "./ai-scammer/scripts/outbound-call.js";
 
 
 // Initialize environment and Express
