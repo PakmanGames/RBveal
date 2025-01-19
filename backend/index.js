@@ -1,11 +1,8 @@
 import express from "express";
 
-
-
 // Set max listeners before creating app
-import { EventEmitter } from 'events';
+import { EventEmitter } from "events";
 EventEmitter.defaultMaxListeners = 15;
-
 
 import expressWs from "express-ws";
 import dotenv from "dotenv";
@@ -18,11 +15,10 @@ import { readFile } from "fs/promises";
 
 // Import GPT services
 import GptService from "./ai-scammer/services/gpt-service.js";
-import StreamService from "./ai-scammer/services/stream-service.js";  // Changed to default import
+import StreamService from "./ai-scammer/services/stream-service.js"; // Changed to default import
 import TranscriptionService from "./ai-scammer/services/transcription-service.js"; // Changed to default import
 import TextToSpeechService from "./ai-scammer/services/tts-service.js";
 import { makeOutBoundCall } from "./ai-scammer/scripts/outbound-call.js";
-
 
 // Initialize environment and Express
 dotenv.config();
@@ -47,7 +43,7 @@ const client = twilio(
 let callStatus = "pending";
 let lastCallFrom = "";
 let lastCallTo = "";
-
+global.voiceModel = "aura-asteria-en"
 // Helper Functions
 async function readTwiMLFile() {
   const filePath = join(__dirname, "twiml.xml");
@@ -59,7 +55,6 @@ async function readTwiMLFile() {
   }
 }
 
-
 function generateTwiML() {
   const response = new twilio.twiml.VoiceResponse();
   const connect = response.connect();
@@ -68,7 +63,6 @@ function generateTwiML() {
   });
   return response.toString();
 }
-
 
 // Routes
 app.get("/api/call", async (req, res) => {
@@ -103,6 +97,37 @@ app.get("/api/callStatus", (req, res) => {
     status: callStatus === "completed" ? "completed" : "pending",
     details: callStatus,
   });
+});
+
+app.post("/set-voice", (req, res) => {
+  const { trustedIndividual } = req.body;
+
+  const VoiceModels = {
+    1: "aura-asteria-en",
+    2: "aura-luna-en",
+    3: "aura-stella-en",
+    4: "aura-athena-en",
+    5: "aura-hera-en",
+    6: "aura-orion-en",
+    7: "aura-arcas-en",
+    8: "aura-perseus-en",
+    9: "aura-angus-en",
+    10: "aura-orpheus-en",
+    11: "aura-helios-en",
+    12: "aura-zeus-en",
+  };
+
+
+  const voiceNumber = parseInt(trustedIndividual.match(/\d+/)?.[0], 10);
+
+  console.log("Received data:");
+  console.log("Trusted Individual:", trustedIndividual);
+  const selectedVoiceModel = VoiceModels[voiceNumber];
+  
+  global.voiceModel = selectedVoiceModel;
+  
+
+  res.status(200).send({ message: "Voice set successfully!" });
 });
 
 // Email Route
@@ -161,7 +186,7 @@ app.post("/startOutboundCall", async (req, res) => {
     const call = await client.calls.create({
       twiml: twimlContent,
       to: formattedNumber,
-      from: process.env.TWILIO_PHONE_NUMBER
+      from: process.env.TWILIO_PHONE_NUMBER,
     });
     res.status(200).json({ message: "Call initiated", data: call });
   } catch (error) {

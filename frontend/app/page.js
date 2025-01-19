@@ -33,17 +33,20 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Top Navigation */}
-      <nav className="bg-rbcblue/90 backdrop-blur-md border border-white/20 fixed z-50 left-1/2 transform -translate-x-1/2 w-3/4 rounded-2xl shadow-2xl mt-4">
+      <nav className="bg-white/90 backdrop-blur-md border border-white/20 fixed z-50 left-1/2 transform -translate-x-1/2 w-3/4 rounded-2xl shadow-2xl mt-4">
         <div className="container mx-auto">
           <div className="flex items-center justify-between py-4 px-4">
             <Link href="/" className="flex items-center gap-2">
               <motion.span
-                className="text-white font-black text-3xl md:text-4xl"
+                className="text-rbcblue font-black text-3xl md:text-4xl flex flex-row gap-2 justify-center items-center"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                RBveal
+                <img src="rbc.png" className="w-12" />
+                <p>
+                  <span className="text-rbcdarkyellow">RB</span>veal
+                </p>{" "}
               </motion.span>
             </Link>
 
@@ -79,11 +82,22 @@ export default function Home() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                  <div className="inline-block bg-rbcdarkyellow text-sm font-bold px-3 py-1 rounded-xl mb-4">
-                    RBC Security Training
+                  <div className="">
+                    <motion.div
+                      className="text-rbcblue font-black text-6xl flex flex-row gap-2 items-center"
+                      initial={{ opacity: 0, x: -50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                    >
+                      <img src="rbc.png" className="w-44" />
+                      <p>
+                        <span className="text-rbcdarkyellow">RB</span>veal
+                      </p>{" "}
+                    </motion.div>
                   </div>
+
                   <div className="flex flex-col space-6">
-                    <h1 className="text-4xl md:text-5xl font-black mb-6">
+                    <h1 className="text-4xl font-black mb-6 bg-rbcdarkyellow font-bold px-4 py-4 w-[21rem] rounded-xl">
                       Be Cyber Aware
                     </h1>
                     <span className="mt-2 font-light text-xl">

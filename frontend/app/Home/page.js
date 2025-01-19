@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Nav from "../components/Nav";
 import Summary from "../components/Summary";
 import Account from "../components/Account";
@@ -8,24 +8,23 @@ import { useEffect } from "react";
 export default function home() {
   const initiateCall = async () => {
     try {
-      const response = await fetch('http://localhost:8080/startOutboundCall', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8080/startOutboundCall", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          to: `${process.env.TWILIO_USER_PHONE_NUMBER}`,
+          to: `${process.env.NEXT_PUBLIC_TWILIO_USER_PHONE_NUMBER}`,
         }),
       });
     } catch (error) {
-      console.error('Error initiating call:', error);
+      console.error("Error initiating call:", error);
     }
   };
 
-
   useEffect(() => {
     initiateCall();
-    }, []);
+  }, []);
   return (
     <main className="bg-white">
       <Nav />

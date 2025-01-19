@@ -21,7 +21,7 @@ class TextToSpeechService extends EventEmitter {
 
     try {
       const response = await fetch(
-        `https://api.deepgram.com/v1/speak?model=${process.env.VOICE_MODEL}&encoding=mulaw&sample_rate=8000&container=none`,
+        `https://api.deepgram.com/v1/speak?model=${global.voiceModel}&encoding=mulaw&sample_rate=8000&container=none`,
         {
           method: "POST",
           headers: {
