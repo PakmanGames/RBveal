@@ -25,7 +25,7 @@ import {
 export default function Home() {
 
   const StepLabel = ({ number }) => (
-    <div className=" animate-pulse relative w-1/3 top-4 right-4 bg-red-600 text-2xl text-center text-white font-bold px-4 py-2 rounded-lg z-10 shadow-2xl">Step {number}
+    <div className=" animate-pulse relative w-1/3 top-8 right-4 bg-red-600 text-2xl text-center text-white font-bold px-4 py-2 rounded-lg z-10 shadow-2xl">Step {number}
     </div>
   );
 
@@ -97,13 +97,14 @@ export default function Home() {
                   </div>
 
                   <div className="flex flex-col space-6">
-                    <h1 className="text-4xl font-black mb-6 bg-rbcdarkyellow font-bold px-4 py-4 w-[21rem] rounded-xl">
+                    <h1 className="flex items-center gap-4 bg-red-100 text-red-600 px-4 py-2 rounded text-2xl">
+                      <AlertTriangle className="h-6 w-6" />
                       Be Cyber Aware
                     </h1>
-                    <span className="mt-2 font-light text-xl">
-                      We safeguard our health. We safeguard our investments. It
-                      is critical that we all become more Cyber Aware and
-                      safeguard our online activities.
+                    <span className="my-4 font-light text-xl">
+                      We safeguard our health. We safeguard our investments.{" "}
+                      <br /> It is critical that we all become more Cyber Aware
+                      and safeguard our online activities.
                     </span>
                   </div>
 
@@ -114,7 +115,7 @@ export default function Home() {
                     <Link href="/start">
                       <Button
                         size="lg"
-                        className="bg-rbcblue p-12 text-4xl text-white font-black hover:bg-rbcdarkyellow hover:text-black transition-all duration-300"
+                        className="bg-red-600 p-12 text-4xl w-full text-white font-black hover:bg-green-500 transition-all duration-300"
                       >
                         Start Your Simulation
                       </Button>
@@ -131,10 +132,15 @@ export default function Home() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
                   >
-                    <h1 className="font-black text-xl">What is RBveal?</h1>
+                    <h1 className="font-black text-xl">
+                      What is <span className="text-rbcdarkyellow">RB</span>
+                      <span className="text-rbcblue">veal</span>?
+                    </h1>
                     <p>
-                      Halsdasdasdlasod laosdl oasld asod laosld oaosdl aslo asd
-                      aoisdj iajido oasjd ojaoisd joajsoid joadsjio asdasd.
+                      RBveal is an RBC phishing simulator that sends a real
+                      email about a login attempt, leading students to the RBC
+                      website where an AI scam call tries to trick them into
+                      transferring money.
                     </p>
                   </motion.div>
                 </div>
@@ -146,17 +152,25 @@ export default function Home() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
                   >
-                    <h1 className="font-black text-xl">Why is RBveal?</h1>
+                    <h1 className="font-black text-xl">
+                      Why use <span className="text-rbcdarkyellow">RB</span>
+                      <span className="text-rbcblue">veal</span>?
+                    </h1>
                     <p>
-                      Halsdasdasdlasod laosdl oasld asod laosld oaosdl aslo asd
-                      aoisdj iajido oasjd ojaoisd joajsoid joadsjio asdasd.
+                      RBveal helps students learn to spot phishing attempts by
+                      simulating a real-world scenario. It trains them to
+                      recognize and handle scams, protecting their financial
+                      information in the digital world.
                     </p>
                   </motion.div>
                 </div>
               </div>
+              <div className="w-full bg-rbcdarkgray rounded-2xl shadow-2xl py-4 px-8 text-white text-center font-semibold">
+                Developed by Jacob Fu, Yarema Yaremchuk, Andy Pak, Aiden Suh
+              </div>
             </div>
 
-            <div className="flex flex-col w-full gap-6">
+            <div className="flex flex-col w-full">
               <motion.div
                 className=""
                 initial={{ opacity: 0, x: 50 }}
@@ -165,45 +179,53 @@ export default function Home() {
               >
                 <StepLabel number={1} />
                 <div className="bg-white p-6 rounded-lg shadow-xl">
-                  <div className="flex items-center justify-between mb-4 border-b pb-2">
+                  <div className="flex items-center justify-between border-b pb-2">
                     <div>
-                      <p className="font-medium text-red-600 flex items-center gap-2">
-                        <AlertTriangle className="h-4 w-4" />
-                        Suspicious Sender
-                      </p>
+                      <div className="font-bold w-max rounded text-sm">
+                        RBC Royal Bank
+                      </div>
                       <p className="text-sm text-gray-600">
                         From: security@rbc-verify.net
                       </p>
+                      <p className="text-xs text-gray-600">
+                        10:29 PM (1 hour ago)
+                      </p>
                     </div>
                     <div className="bg-red-100 text-red-600 px-2 py-1 rounded text-xs">
-                      Phishing Alert
+                      Urgent
                     </div>
                   </div>
                   <div className="space-y-4">
                     <p className="text-sm text-gray-800 font-semibold">
-                      Subject: Urgent Security Alert - Account Verification
-                      Required
+                      URGENT: Unusual Login Attempt Detected on Your Account
                     </p>
-                    <div className="text-sm text-gray-600 space-y-2">
-                      <p>Dear Valued Customer,</p>
-                      <p>
-                        We have detected unusual activity in your account.
-                        Please verify your identity immediately by clicking the
-                        link below:
-                      </p>
-                      <p className="text-blue-600 underline cursor-pointer">
-                        https://secure-rbc-banking.com/verify
-                      </p>
-                      <motion.p
-                        className="bg-yellow-100 p-2 rounded text-xs"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 1 }}
-                      >
-                        Warning: This is a suspicious URL that doesn't match
-                        RBC's official domain
-                      </motion.p>
+                    <div className="flex flex-col gap-6 items-center">
+                      <img src="rbc_email.png" className="w-24" />
+                      <div className="text-xs text-gray-600 space-y-2">
+                        <p>Dear valued customer,</p>
+                        <p>
+                          We have detected an unauthorized login attempt on your
+                          account. For your security, we have temporarily
+                          disabled your account to prevent any further
+                          suspicious activity.
+                        </p>
+                        <p>
+                          To restore access to your account and verify your
+                          identity, we require immediate action. Please click
+                          the button below and verify your identity within{" "}
+                          <strong>24 hours</strong> to avoid getting permanently
+                          suspended.
+                        </p>
+                      </div>
                     </div>
+                  </div>
+                  <div className="text-center py-4">
+                    <p className="inline-block bg-blue-600 text-white py-2 px-4 rounded text-lg font-semibold">
+                      Verify My Account Now
+                    </p>
+                  </div>
+                  <div className="border-t pt-4 text-center text-xs text-gray-500">
+                    <p>&copy; 2025 RBC Financial Group. All rights reserved.</p>
                   </div>
                 </div>
               </motion.div>
@@ -273,6 +295,9 @@ export default function Home() {
               <StepLabel number={3} />
 
               <div className="bg-white p-8 rounded-2xl shadow-2xl">
+                <h1 className="font-black text-2xl text-center py-4">
+                  AI Scam Call
+                </h1>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -280,59 +305,71 @@ export default function Home() {
                   className="flex justify-center items-center"
                 >
                   {/* iPhone Frame */}
-                  <div className="relative bg-black rounded-[40px] p-3 shadow-xl w-[280px]">
-                    {/* iPhone Notch */}
-                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[40%] h-6 bg-black rounded-b-3xl z-20"></div>
+                  <div className="relative bg-black rounded-[55px] p-3 shadow-xl w-[320px]">
+                    {/* Dynamic Island */}
+                    <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-[30%] h-[34px] bg-black rounded-3xl z-20 flex items-center justify-center">
+                      <div className="bg-black w-[95%] h-[30px] rounded-[20px] flex items-center justify-between px-3">
+                        <div className="w-3 h-3 rounded-full bg-[#262626] border border-gray-500"></div>
+                      </div>
+                    </div>
+
+                    {/* Volume Buttons */}
+                    <div className="absolute left-[-4px] top-[200px] space-y-6">
+                      <div className="w-[6px] h-16 bg-[#1a1a1a] rounded-l-full"></div>
+                      <div className="w-[6px] h-16 bg-[#1a1a1a] rounded-l-full"></div>
+                    </div>
+
+                    {/* Power Button */}
+                    <div className="absolute right-[-6px] top-[120px] w-[12px] h-24 bg-[#1a1a1a] rounded-r-full"></div>
 
                     {/* Screen */}
-                    <div className="relative bg-white rounded-[30px] overflow-hidden aspect-[9/19.5]">
+                    <div className="relative bg-[#262626] rounded-[48px] overflow-hidden aspect-[9/19.5]">
                       {/* Status Bar */}
-                      <div className="h-8 bg-[#262626] flex justify-between items-center px-4 pt-1">
-                        <span className="text-[10px] text-white">9:41</span>
-                        <div className="flex gap-1">
-                          <span className="text-[10px] text-white">5G</span>
-                          <span className="text-[10px] text-white">100%</span>
+                      <div className="h-12 flex justify-between items-center px-6 pt-1">
+                        <span className="text-[14px] text-white font-medium">
+                          9:41
+                        </span>
+                        <div className="flex gap-2">
+                          <span className="text-[14px] text-white">5G</span>
+                          <div className="w-6 h-3 bg-white rounded-sm mt-1"></div>
                         </div>
                       </div>
 
                       {/* Call Screen */}
-                      <div className="absolute inset-0 bg-[#262626] flex flex-col items-center justify-center p-6">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
                         <div className="text-center space-y-6">
                           {/* RBC Logo Circle */}
-                          <div className="w-24 h-24 bg-[#1F4098] rounded-full mx-auto flex items-center justify-center">
-                            <span className="text-3xl text-white font-bold">
-                              RBC
-                            </span>
-                          </div>
+                        
+                            <img src="hacker.png" className="w-36 h-36 rounded-full mx-auto" />
 
                           {/* Call Info */}
                           <div className="space-y-2">
-                            <h3 className="text-white text-2xl font-semibold">
+                            <h3 className="text-white text-3xl font-semibold">
                               RBC Royal Bank
                             </h3>
-                            <p className="text-gray-400 text-sm">
+                            <p className="text-gray-400 text-lg">
                               incoming call...
                             </p>
                           </div>
 
                           {/* Call Buttons */}
-                          <div className="flex justify-center gap-8 mt-8">
+                          <div className="flex justify-center gap-12 mt-12">
                             {/* Decline Button */}
                             <div className="flex flex-col items-center">
-                              <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center">
-                                <span className="text-white text-2xl">×</span>
+                              <div className="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center">
+                                <span className="text-white text-4xl">×</span>
                               </div>
-                              <span className="text-gray-400 text-sm mt-2">
+                              <span className="text-gray-400 text-lg mt-3">
                                 Decline
                               </span>
                             </div>
 
                             {/* Accept Button */}
                             <div className="flex flex-col items-center">
-                              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
-                                <span className="text-white text-2xl">✓</span>
+                              <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center">
+                                <span className="text-white text-4xl">✓</span>
                               </div>
-                              <span className="text-gray-400 text-sm mt-2">
+                              <span className="text-gray-400 text-lg mt-3">
                                 Accept
                               </span>
                             </div>
