@@ -124,7 +124,7 @@ app.post("/set-voice", (req, res) => {
   console.log("Trusted Individual:", trustedIndividual);
   const selectedVoiceModel = VoiceModels[voiceNumber];
   
-  global.voiceModel = selectedVoiceModel;
+  // global.voiceModel = selectedVoiceModel;
   
 
   res.status(200).send({ message: "Voice set successfully!" });
