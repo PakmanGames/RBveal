@@ -101,6 +101,19 @@ export default function StartSimulation() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
+
+
+    const response = await fetch("http://localhost:8080/set-voice", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        trustedIndividual: formData.trustedIndividual
+      }),
+    });
+
+
     await sendEmail();
   };
 
@@ -196,15 +209,29 @@ export default function StartSimulation() {
                   <Label htmlFor="trustedIndividual" className="text-lg">
                     Trusted Individual
                   </Label>
-                  <Input
-                    id="trustedIndividual"
-                    name="trustedIndividual"
-                    value={formData.trustedIndividual}
-                    onChange={handleInputChange}
-                    placeholder="e.g. Taylor Swift"
-                    required
-                    className="h-12 text-lg"
-                  />
+                  <select
+    id="trustedIndividual"
+    name="trustedIndividual"
+    value={formData.trustedIndividual}
+    onChange={handleInputChange}
+    required
+    className="h-12 text-lg w-full"
+  >
+    {/* List of trusted voices */}
+    <option value="">Select a Trusted Individual</option>
+    <option value="Voice1">Voice 1</option>
+    <option value="Voice2">Voice 2</option>
+    <option value="Voice3">Voice 3</option>
+    <option value="Voice4">Voice 4</option>
+    <option value="Voice5">Voice 5</option>
+    <option value="Voice6">Voice 6</option>
+    <option value="Voice7">Voice 7</option>
+    <option value="Voice8">Voice 8</option>
+    <option value="Voice9">Voice 9</option>
+    <option value="Voice10">Voice 10</option>
+    <option value="Voice11">Voice 11</option>
+    <option value="Voice12">Voice 12</option>
+  </select>
                 </div>
               </div>
             </form>
