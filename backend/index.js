@@ -1,121 +1,118 @@
 import express from "express";
+
+
+
+// Set max listeners before creating app
+import { EventEmitter } from 'events';
+EventEmitter.defaultMaxListeners = 15;
+
+
+import expressWs from "express-ws";
 import dotenv from "dotenv";
 import cors from "cors";
 import twilio from "twilio";
-import fs from "fs";
 import nodemailer from "nodemailer";
-import { readFile } from "fs/promises";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import { readFile } from "fs/promises";
 
+// Import GPT services
+import GptService from "./call-gpt/services/gpt-service.js";
+import StreamService from "./call-gpt/services/stream-service.js";  // Changed to default import
+import TranscriptionService from "./call-gpt/services/transcription-service.js"; // Changed to default import
+import TextToSpeechService from "./call-gpt/services/tts-service.js";
+import { makeOutBoundCall } from "./call-gpt/scripts/outbound-call.js";
+
+
+// Initialize environment and Express
 dotenv.config();
-
-const PORT = process.env.PORT || 5000;
 const app = express();
+const wsInstance = expressWs(app);
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// TWILIO CONFIG
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = twilio(accountSid, authToken);
-
+// Constants
+const PORT = process.env.PORT || 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Helper to read local TwiML file (if needed)
+// Twilio setup
+const client = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
+let callStatus = "pending";
+let lastCallFrom = "";
+let lastCallTo = "";
+
+// Helper Functions
 async function readTwiMLFile() {
   const filePath = join(__dirname, "twiml.xml");
   try {
-    const content = await readFile(filePath, "utf8");
-    return content;
+    return await readFile(filePath, "utf8");
   } catch (error) {
     console.error("Error reading TwiML file:", error);
     throw error;
   }
 }
 
-// ──────────────────────────────────────────────────────────
-// 1) OUTBOUND CALL (from your original code)
-// ──────────────────────────────────────────────────────────
+
+function generateTwiML() {
+  const response = new twilio.twiml.VoiceResponse();
+  const connect = response.connect();
+  connect.stream({
+    url: `wss://jacobs-macbook-pro.tail8a7d7a.ts.net/connection`,
+  });
+  return response.toString();
+}
+
+
+// Routes
 app.get("/api/call", async (req, res) => {
   try {
-    const twimlContent = await readTwiMLFile();
-
-    client.calls
-      .create({
-        twiml: twimlContent,
-        to: process.env.TWILIO_USER_PHONE_NUMBER,
-        from: process.env.TWILIO_PHONE_NUMBER,
-        statusCallback: `${process.env.TAILSCALE_PUBLIC_URL}api/callStatus/`,
-        statusCallbackEvent: ["completed"],
-        statusCallbackMethod: "POST",
-      })
-      .then((call) => res.json({ success: true, callSid: call.sid }))
-      .catch((error) => {
-        console.error("Error making call:", error);
-        res.status(500).json({ success: false, error: error.message });
-      });
+    const twimlContent = generateTwiML();
+    const call = await client.calls.create({
+      twiml: twimlContent,
+      to: process.env.TWILIO_USER_PHONE_NUMBER,
+      from: process.env.TWILIO_PHONE_NUMBER,
+      statusCallback: `${process.env.TAILSCALE_PUBLIC_URL}api/callStatus/`,
+      statusCallbackEvent: ["completed"],
+      statusCallbackMethod: "POST",
+    });
+    res.json({ success: true, callSid: call.sid });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
 
-let callStatus = "pending";
-let lastCallFrom = "";
-let lastCallTo = "";
-
-// ──────────────────────────────────────────────────────────
-// 2) CALL STATUS WEBHOOKS
-// ──────────────────────────────────────────────────────────
+// Call Status Routes
 app.post("/api/callStatus", (req, res) => {
   const { CallSid, CallStatus, To, From } = req.body;
   callStatus = CallStatus;
   lastCallFrom = From;
   lastCallTo = To;
-  console.log("CallSid:", CallSid);
-  console.log("CallStatus:", CallStatus);
-
-  if (CallStatus === "completed") {
-    console.log(`Call from ${From} to ${To} has been completed.`);
-  }
+  console.log(`Call ${CallSid} status: ${CallStatus}`);
   res.status(200).send("Status received");
 });
 
-app.put("/api/callStatus", (req, res) => {
-  callStatus = "pending";
-  console.log("Call status has been reset to pending.");
-  res.json({ status: "pending", details: callStatus });
-});
-
 app.get("/api/callStatus", (req, res) => {
-  if (callStatus === "completed") {
-    console.log(
-      `Call from ${lastCallFrom} to ${lastCallTo} has been completed.`
-    );
-    res.json({ status: "completed", details: callStatus });
-  } else {
-    console.log("Call is still in progress.");
-    res.json({ status: "pending", details: callStatus });
-  }
+  res.json({
+    status: callStatus === "completed" ? "completed" : "pending",
+    details: callStatus,
+  });
 });
 
-// ──────────────────────────────────────────────────────────
-// 3) EMAIL BACKEND
-// ──────────────────────────────────────────────────────────
+// Email Route
 app.post("/send-email", async (req, res) => {
   const { email, subject, message } = req.body;
-
   if (!email || !subject || !message) {
-    return res
-      .status(400)
-      .json({ message: "All fields (email, subject, message) are required." });
+    return res.status(400).json({ message: "Missing required fields" });
   }
 
   try {
-    // Configure the transporter for Gmail
     const transporter = nodemailer.createTransport({
       service: "gmail",
       secure: true,
@@ -125,9 +122,8 @@ app.post("/send-email", async (req, res) => {
       },
     });
 
-    // Send email
     await transporter.sendMail({
-      from: `RBC Royal Bank" <${process.env.EMAIL_USER}>`,
+      from: `RBC Royal Bank <${process.env.EMAIL_USER}>`,
       to: email,
       date: new Date().toISOString(),
       subject: subject,
@@ -136,95 +132,147 @@ app.post("/send-email", async (req, res) => {
 
     res.status(200).json({ message: "Email sent successfully!" });
   } catch (error) {
-    console.error("Error sending email:", error.message);
     res.status(500).json({ message: `Failed to send email: ${error.message}` });
   }
 });
 
-// ──────────────────────────────────────────────────────────
-// 4) TWILIO Call-GPT OUTBOUND CALL
-// ──────────────────────────────────────────────────────────
-// This is from your "call-gpt/scripts/outbound-call.js" import:
-import { makeOutBoundCall } from "./call-gpt/scripts/outbound-call.js";
-
-
+// GPT Voice Routes
+app.post("/incoming", (req, res) => {
+  try {
+    const response = new twilio.twiml.VoiceResponse();
+    const connect = response.connect();
+    connect.stream({ url: `wss://${process.env.SERVER}/connection` });
+    res.type("text/xml");
+    res.send(response.toString());
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error handling incoming call");
+  }
+});
+// Update /startOutboundCall route
 app.post("/startOutboundCall", async (req, res) => {
   try {
     const { to } = req.body;
     if (!to) {
-      return res.status(400).json({ error: "Phone number is required" });
+      return res.status(400).json({ error: "Phone number required" });
     }
-
-    // Ensure phone number is in E.164 format
     const formattedNumber = to.startsWith("+") ? to : `+${to}`;
-
-    const callResponse = await makeOutBoundCall(formattedNumber);
-    res.status(200).json({
-      message: "Outbound call initiated",
-      data: callResponse,
+    const twimlContent = generateTwiML();
+    const call = await client.calls.create({
+      twiml: twimlContent,
+      to: formattedNumber,
+      from: process.env.TWILIO_PHONE_NUMBER
     });
+    res.status(200).json({ message: "Call initiated", data: call });
   } catch (error) {
-    console.error("Error initiating outbound call:", error);
     res.status(500).json({ error: error.message });
   }
 });
 
+// WebSocket Handler
+app.ws("/connection", (ws) => {
+  let streamSid;
+  let callSid;
+  let marks = [];
+  let interactionCount = 0;
 
-// ──────────────────────────────────────────────────────────
-// 5) GPT TwiML ADDITION
-//    -> New route that Twilio can fetch mid-call to speak or stream GPT text
-// ──────────────────────────────────────────────────────────
+  // Initialize services
+  const gptService = new GptService();
+  const streamService = new StreamService(ws);
+  const transcriptionService = new TranscriptionService();
+  const ttsService = new TextToSpeechService({});
 
-// 5a) Import the GPT service from your Call-GPT code
-// (Adjust path if needed; make sure gpt-service.js exists in your project.)
-import pkg from "./call-gpt/services/gpt-service.cjs";
-const { GptService } = pkg;
+  // Cleanup function to properly close all services
+  const cleanup = () => {
+    try {
+      transcriptionService.removeAllListeners();
+      gptService.removeAllListeners();
+      ttsService.removeAllListeners();
+      streamService.removeAllListeners();
 
+      // Clean up any ongoing processes
+      if (streamService.cleanup) streamService.cleanup();
+      if (transcriptionService.cleanup) transcriptionService.cleanup();
+      if (gptService.cleanup) gptService.cleanup();
+      if (ttsService.cleanup) ttsService.cleanup();
+    } catch (err) {
+      console.error("Cleanup error:", err);
+    }
+  };
 
-// 5b) Endpoint for Twilio to GET/POST TwiML that includes GPT output
-app.get("/generateTwiML", async (req, res) => {
-  try {
-    // 1) Example: get user prompt from query or default
-    const userPrompt = req.query.prompt || "Hello from GPT!";
+  ws.on("message", (data) => {
+    try {
+      const msg = JSON.parse(data);
+      switch (msg.event) {
+        case "start":
+          streamSid = msg.start.streamSid;
+          callSid = msg.start.callSid;
+          streamService.setStreamSid(streamSid);
+          gptService.setCallSid(callSid);
+          break;
+        case "media":
+          transcriptionService.send(msg.media.payload);
+          break;
+        case "mark":
+          marks = marks.filter((m) => m !== msg.mark.name);
+          break;
+        case "stop":
+          console.log(`Stream ${streamSid} ended`);
+          cleanup();
+          ws.close(1000, "Stream ended normally");
+          break;
+      }
+    } catch (err) {
+      console.error("Message handling error:", err);
+      cleanup();
+      ws.close(1011, "Internal server error");
+    }
+  });
 
-    // 2) Call GPT service
-    const gptText = await callGPT(userPrompt);
+  transcriptionService.on("transcription", async (text) => {
+    if (text) {
+      try {
+        await gptService.completion(text, interactionCount++);
+      } catch (err) {
+        console.error("Transcription handling error:", err);
+      }
+    }
+  });
 
-    // 3) Build TwiML response with GPT text. Using Twilio's TTS <Say>:
-    const twimlResponse = `
-      <Response>
-        <Say voice="alice">${gptText}</Say>
-      </Response>
-    `;
+  gptService.on("gptreply", async (reply, count) => {
+    try {
+      await ttsService.generate(reply, count);
+    } catch (err) {
+      console.error("GPT reply handling error:", err);
+    }
+  });
 
-    // 4) Return TwiML as XML to Twilio
-    res.set("Content-Type", "text/xml").status(200).send(twimlResponse);
-  } catch (error) {
-    console.error("Error generating TwiML:", error);
-    res.status(500).send("Something went wrong generating TwiML.");
-  }
+  ttsService.on("speech", (index, audio, label, count) => {
+    try {
+      streamService.buffer(index, audio);
+    } catch (err) {
+      console.error("Speech handling error:", err);
+    }
+  });
+
+  streamService.on("audiosent", (label) => {
+    marks.push(label);
+  });
+
+  // Handle WebSocket closure events
+  ws.on("close", (code, reason) => {
+    console.log(`WebSocket closed with code ${code} and reason: ${reason}`);
+    cleanup();
+  });
+
+  ws.on("error", (err) => {
+    console.error("WebSocket error:", err);
+    cleanup();
+    ws.close(1011, "Internal server error");
+  });
 });
 
-// NOTE: In your "call-gpt/scripts/outbound-call.js", make sure the `client.calls.create()` call
-// uses this new endpoint for `url:` so Twilio knows where to get GPT-driven TTS.
-//
-// Example snippet in "outbound-call.js":
-// --------------------------------------
-// const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-// async function initiateOutboundCall(toNumber) {
-//   return client.calls.create({
-//     url: `${process.env.TAILSCALE_PUBLIC_URL}generateTwiML`,
-//     to: toNumber,
-//     from: process.env.TWILIO_PHONE_NUMBER
-//   });
-// }
-//
-// module.exports = { initiateOutboundCall };
-// --------------------------------------
-
-// ──────────────────────────────────────────────────────────
-// 6) START THE SERVER
-// ──────────────────────────────────────────────────────────
+// Start Server
 app.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:${PORT}/`);
+  console.log(`Server running on http://localhost:${PORT}/`);
 });
