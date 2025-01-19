@@ -5,7 +5,7 @@
 In today's digital age, young adults and students are increasingly "chronically online," making them prime targets for sophisticated cyber threats like spear phishing. Where the average [click rate of spear-phishing attempts are over **50%**](https://aag-it.com/the-latest-phishing-statistics/?utm_source=chatgpt.com). Cyber attacks are projected to [cost the global economy **$10.5 trillion**](https://cybersecurityventures.com/cybercrime-damages-6-trillion-by-2021/?utm_source=chatgpt.com) by 2025. 
 
 ## 🔍 What it does
-RBveal addresses this critical gap by simulating real-world phishing scenarios, empowering students to recognize and respond to cyber threats, thereby safeguarding their financial information in an increasingly perilous digital landscape.  
+RBveal addresses the problem of cybersecurity for students by simulating real-world phishing scenarios, empowering students to recognize and respond to cyber threats, thereby safeguarding their financial information in an increasingly perilous digital landscape.  
 - Multi-Stage AI-Driven simulation, simulate a phone call from a bank representative who mimics real-world phishing tactics
 - An interactive learning experience for students to learn how to respond to cyber threats
 
