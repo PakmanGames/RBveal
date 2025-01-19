@@ -216,7 +216,7 @@ export default function StartSimulation() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="trustedIndividual" className="text-lg">
-                    Trusted Individual
+                    Familiar Voice
                   </Label>
                   <select
                     id="trustedIndividual"
@@ -227,19 +227,13 @@ export default function StartSimulation() {
                     className="h-12 text-lg w-full"
                   >
                     {/* List of trusted voices */}
-                    <option value="">Select a Trusted Individual</option>
-                    <option value="Voice1">Voice 1</option>
-                    <option value="Voice2">Voice 2</option>
-                    <option value="Voice3">Voice 3</option>
-                    <option value="Voice4">Voice 4</option>
-                    <option value="Voice5">Voice 5</option>
-                    <option value="Voice6">Voice 6</option>
-                    <option value="Voice7">Voice 7</option>
-                    <option value="Voice8">Voice 8</option>
-                    <option value="Voice9">Voice 9</option>
-                    <option value="Voice10">Voice 10</option>
-                    <option value="Voice11">Voice 11</option>
-                    <option value="Voice12">Voice 12</option>
+                    <option value="">Select a Familiar Individual</option>
+                    <option value="Voice1">US Female</option>
+                    <option value="Voice2">US Female 2</option>
+                    <option value="Voice3">UK Female</option>
+                    <option value="Voice4">US Male</option>
+                    <option value="Voice5">Irish Male</option>
+                    <option value="Voice6">UK Male</option>
                   </select>
                 </div>
               </div>

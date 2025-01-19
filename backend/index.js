@@ -105,17 +105,12 @@ app.post("/set-voice", (req, res) => {
 
   const VoiceModels = {
     1: "aura-asteria-en",
-    2: "aura-stella-en",
-    3: "aura-luna-en",
-    4: "aura-athena-en",
-    5: "aura-hera-en",
-    6: "aura-orion-en",
-    7: "aura-arcas-en",
-    8: "aura-perseus-en",
-    9: "aura-angus-en",
-    10: "aura-orpheus-en",
-    11: "aura-helios-en",
-    12: "aura-zeus-en",
+    2: "aura-luna-en",
+    3: "aura-stella-en",
+    4: "aura-arcas-en",
+    5: "aura-angus-en",
+    6: "aura-helios-en"
+
   };
 
 
