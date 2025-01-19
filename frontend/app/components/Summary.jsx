@@ -6,7 +6,8 @@ import {
   FaUniversity,
 } from "react-icons/fa";
 
-const Summary = () => {
+const Summary = ({name}) => {
+  console.log(name)
   return (
     <div
       className="flex justify-center items-end pb-8 h-56"
@@ -19,7 +20,7 @@ const Summary = () => {
       <section className="w-3/5 h-1/5 flex flex-row text-white items-center justify-center">
         <div className="w-3/5">
           <h1 className="text-3xl">Accounts Summary</h1>
-          <h2 className="text-xl">Good Evening, JACOB FU</h2>
+          <h2 className="text-xl">Good Evening, {name}</h2>
         </div>
         <div className="text-sm flex flex-row w-2/5 text-center justify-end">
           <div className="flex flex-col items-center justify-center">
