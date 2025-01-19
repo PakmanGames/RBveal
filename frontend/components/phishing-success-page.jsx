@@ -1,6 +1,7 @@
 import { Shield, ThumbsUp, AlertTriangle } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
+import Image from 'next/image';
 
 export default function PhishingSimulationSuccess() {
   return (
@@ -10,6 +11,7 @@ export default function PhishingSimulationSuccess() {
         <CardHeader className="text-center">
           <div className="mx-auto bg-blue-100 p-3 rounded-full w-fit mb-4">
             <Shield className="h-12 w-12 text-blue-600" />
+            {/* <Image src="/rbc.png" alt="RBveal Logo" width={64} height={64} className="h-24 w-24 text-blue-600" /> */}
           </div>
           <CardTitle className="text-2xl font-bold text-blue-700 mb-2">Congratulations! You've Passed the Phishing Test</CardTitle>
           <CardDescription className="text-blue-600">
