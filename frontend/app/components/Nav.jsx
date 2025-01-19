@@ -11,7 +11,7 @@ const Nav = ({ name }) => {
                 href=""
                 className="text-blue-500 py-4 px-8 border-2 border-blue-500"
               >
-                {name}
+                {name ? `Welcome, ${name}` : "Signed In"}
               </a>
               <a href="" className="text-black bg-yellow-300 py-4 px-8">
                 Sign Out

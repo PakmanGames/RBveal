@@ -19,18 +19,19 @@ export default function ETransferWarning() {
       <div className="min-h-screen p-4 md:p-8">
         <Card className="mx-auto max-w-4xl">
           <CardHeader className="space-y-6">
-            <div className="flex items-start justify-between gap-8 bg-gray-200">
-              <div className="space-y-2">
-                <h1 className="text-2xl font-medium md:text-3xl">
-                  Before You Add an e-Transfer Recipient...
-                </h1>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="space-y-2">
+                  <h1 className="text-2xl font-medium md:text-3xl">
+                    Before You Add an e-Transfer Recipient...
+                  </h1>
+                </div>
               </div>
-              <div className="relative hidden h-32 w-32 md:block">
-                <Image
-                  src=""
+              <div className="relative hidden md:block">
+                <img
+                  src="rbc_email.png"
                   alt="Security illustration"
-                  fill
-                  className="object-contain"
+                  className="w-48 h-auto object-contain"
                 />
               </div>
             </div>
@@ -99,11 +100,13 @@ export default function ETransferWarning() {
             </div>
 
             <div className="flex justify-between gap-4 pt-4">
-              <Link href="/"><Button variant="outline">Cancel</Button></Link>
-<Link href="/add">
-                <Button>I Understand</Button>
-  
-</Link>            </div>
+              <Link href="/">
+                <Button variant="outline">Cancel</Button>
+              </Link>
+              <Link href="/add">
+                <Button className="bg-rbcblue">I Understand</Button>
+              </Link>{" "}
+            </div>
           </CardContent>
         </Card>
       </div>

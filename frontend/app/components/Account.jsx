@@ -29,8 +29,8 @@ const Account = () => {
     }
   };
 
-  const balance = (Math.random() * (4000.00 - 1000.00) + 1000.00).toFixed(2);
-  const investBalance = (Math.random() * (4000.00 - 1000.00) + 1000.00).toFixed(2);
+  // const balance = (Math.random() * (4000.00 - 1000.00) + 1000.00).toFixed(2);
+  // const investBalance = (Math.random() * (4000.00 - 1000.00) + 1000.00).toFixed(2);
 
   return (
     <div className="flex justify-center items-center text-black">
@@ -60,7 +60,7 @@ const Account = () => {
               <h2 className="text-xl">Bank Accounts</h2>
               <div className="flex items-center gap-2">
                 <span className="text-gray-600">Total:</span>
-                <span className="text-xl">{`$${balance}`}</span>
+                <span className="text-xl">{`$1243.43`}</span>
                 <span className="text-gray-600">CAD</span>
               </div>
             </div>
@@ -73,7 +73,7 @@ const Account = () => {
                   <p className="text-gray-600">Chequing 02402-5169537</p>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span>{`$${balance} CAD`}</span>
+                  <span>{`$1243.43 CAD`}</span>
                   <button>⋮</button>
                 </div>
               </div>
@@ -106,7 +106,7 @@ const Account = () => {
               <h2 className="text-xl">Investments</h2>
               <div className="flex items-center gap-2">
                 <span className="text-gray-600">Total:</span>
-                <span className="text-xl">{`$${investBalance}`}</span>
+                <span className="text-xl">{`$6256.43`}</span>
                 <span className="text-gray-600">CAD</span>
               </div>
             </div>
@@ -121,7 +121,7 @@ const Account = () => {
                   </p>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span>{`$${investBalance} CAD`}</span>
+                  <span>{`$6256.43 CAD`}</span>
                   <button>⋮</button>
                 </div>
               </div>

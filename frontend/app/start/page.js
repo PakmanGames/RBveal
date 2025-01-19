@@ -15,10 +15,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 const StepCard = ({ number, title, description }) => (
-  <Card className="w-64 h-48 flex flex-col justify-center p-6 bg-white/90">
-    <div className="text-2xl font-bold text-blue-600 mb-2">Step {number}</div>
-    <h3 className="text-lg font-semibold mb-2">{title}</h3>
-    <p className="text-sm text-gray-600">{description}</p>
+  <Card className="w-[30em] h-[20em] flex flex-col justify-center p-8 bg-white/90">
+    <div className="text-5xl font-bold text-blue-600 mb-3">Step {number}</div>
+    <h3 className="text-2xl font-semibold mb-3">{title}</h3>
+    <ul className="text-xl text-gray-600 list-disc pl-4 space-y-1">
+      {description.map((item, index) => (
+        <li key={index}>{item}</li>
+      ))}
+    </ul>
   </Card>
 );
 
@@ -112,16 +116,13 @@ export default function StartSimulation() {
       }),
     });
 
-
     const response2 = await fetch("http://localhost:8080/saveUserName", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name:formData.name }),
+      body: JSON.stringify({ name: formData.name }),
     });
-
-    
 
     await sendEmail();
   };
@@ -140,25 +141,40 @@ export default function StartSimulation() {
         <div className="flex flex-col gap-6">
           <StepCard
             number="1"
-            title="Fill Your Details"
-            description="Enter your basic information to personalize the simulation"
+            title="Fill in Details of User"
+            description={[
+              "Enter the participant's basic information",
+              "Provide contact details for simulation",
+              "Select voice preferences for AI call",
+            ]}
           />
           <StepCard
             number="2"
-            title="Add Contact Info"
-            description="Provide your contact details for communication purposes"
+            title="Send Urgent Email"
+            description={[
+              "Generate realistic phishing email",
+              "Simulate urgent account notice",
+              "Track email interaction metrics",
+            ]}
           />
         </div>
 
         {/* Center Form */}
+
         <Card className="max-w-2xl w-full mx-4">
-          <div className="mb-4">
-            <Button
-              onClick={() => router.push("/")}
-              className="m-4 w-1/3 h-12 text-lg font-semibold bg-rbcblue text-white"
-            >
-              Go Back to Home
-            </Button>
+          <div className="flex flex-col items-center justify-center p-4 text-5xl font-black text-rbcblue text-center">
+            <img src="rbc.png" className="w-36" />
+            <p>
+              <span className="text-rbcdarkyellow">RB</span>veal
+            </p>{" "}
+            <div className="mb-4">
+              <Button
+                onClick={() => router.push("/")}
+                className="m-4 w-max h-12 text-lg font-semibold bg-rbcblue text-white"
+              >
+                Go Back to Home
+              </Button>
+            </div>
           </div>
           <CardHeader className="space-y-4">
             <CardTitle className="text-2xl">Start Your Simulation</CardTitle>
@@ -226,8 +242,7 @@ export default function StartSimulation() {
                     required
                     className="h-12 text-lg w-full"
                   >
-                    {/* List of trusted voices */}
-                    <option value="">Select a Familiar Individual</option>
+                    <option value="">Select a Familiar Voice</option>
                     <option value="Voice1">US Female</option>
                     <option value="Voice2">US Female 2</option>
                     <option value="Voice3">UK Female</option>
@@ -239,10 +254,10 @@ export default function StartSimulation() {
               </div>
             </form>
           </CardContent>
-          <CardFooter className="pt-6">
+          <CardFooter className="">
             <Button
               type="submit"
-              className="w-full h-12 text-lg font-semibold"
+              className="w-full h-12 text-2xl p-12 bg-rbcblue font-black"
               onClick={handleSubmit}
             >
               Start the Simulation
@@ -254,13 +269,21 @@ export default function StartSimulation() {
         <div className="flex flex-col gap-6">
           <StepCard
             number="3"
-            title="Name a Trusted Contact"
-            description="Choose someone you trust who can help verify suspicious activities"
+            title="Enter Simulated RBC Banking"
+            description={[
+              "Access mock banking interface",
+              "Navigate security features",
+              "Experience realistic banking scenario",
+            ]}
           />
           <StepCard
             number="4"
-            title="Begin Simulation"
-            description="Start your personalized phishing awareness training"
+            title="AI Scammer Phone Call"
+            description={[
+              "Receive simulated scam call",
+              "Experience AI voice interaction",
+              "Practice identifying fraud tactics",
+            ]}
           />
         </div>
       </div>
