@@ -8,7 +8,7 @@ const VideoPage = () => {
     <div
       className="min-h-screen flex flex-col"
       style={{
-        backgroundImage: "url('bg2.svg')",
+        backgroundImage: "url('bgred.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -41,7 +41,7 @@ const VideoPage = () => {
 
       <main className="flex-grow flex items-center justify-center px-4">
         <div className="text-center max-w-3xl">
-          <h1 className="text-4xl font-black bg-white p-12 shadow-2xl rounded-2xl mb-8">
+          <h1 className="text-6xl font-black bg-red-500 text-white p-12 shadow-2xl rounded-2xl mb-8">
             Phishing Test Failed
           </h1>
           <div
@@ -56,13 +56,13 @@ const VideoPage = () => {
               allowFullScreen
             ></iframe>
           </div>
-          <p className="text-xl font-bold bg-white p-8 shadow-2xl rounded-2xl mb-8">
+          <p className="text-xl font-bold bg-red-500 text-white p-8 shadow-2xl rounded-2xl mb-8">
             Oops! It looks like you fell for a phishing attempt. Don’t worry—
             this is part of the learning experience. Review the simulation and
             try again.
           </p>
           <Link href="/">
-            <Button className="mt-8 bg-rbcblue text-white font-bold text-xl p-8">
+            <Button className="mt-8 bg-red-500 text-white font-bold text-xl p-8">
               Return Home
             </Button>
           </Link>
