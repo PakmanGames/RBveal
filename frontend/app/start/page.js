@@ -48,7 +48,7 @@ export default function StartSimulation() {
         },
         body: JSON.stringify({
           email: formData.email,
-          subject: "Attention: Policy update for student accounts",
+          subject: "URGENT: Unusual Login Attempt Detected on Your Account",
           message: ` <table align="center" width="600" cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; border-collapse: collapse; margin: auto; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
   <!-- Logo Row -->
   <tr>
@@ -57,22 +57,15 @@ export default function StartSimulation() {
     </td>
   </tr>
 
-  <!-- Header Row -->
-  <tr>
-    <td style="padding: 20px; text-align: center;">
-      <h1 style="color: #333; font-size: 24px;">UPDATES TO OUR STUDENT ACCOUNT POLICY</h1>
-    </td>
-  </tr>
-
   <!-- Content Row -->
   <tr>
     <td style="padding: 20px;">
       <p>Dear valued customer</p>
       <p>
-        We are notifying you of a recent change to the policy regarding student accounts for online shoping, Due to this update, your account currently shows <strong>non-sufficient funds</strong> to proceed with further transactions.
+        We have detected an unauthorized login attempt on your account. For your security, we have temporarily disabled your account to prevent any further suspicious activity.
       </p>
       <p>
-        To avoid disruptions, please review the updated policy details and verify your acount information within <strong>24 hours</strong>. Failure to do so may result in a temporary suspension of your account.
+        To restore access to your account and verify your identity, we require immediate action. Please click the button below and verify your identity within <strong>24 hours</strong> to avoid getting permanently suspended.
       </p>
     </td>
   </tr>
@@ -82,7 +75,7 @@ export default function StartSimulation() {
     <td style="padding: 20px; text-align: center;">
       <a href="http://localhost:3000/home" style="display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px; font-family: 'Arial', sans-serif; 
               font-weight: bold;">
-        Learn More
+        Verify My Account Now
       </a>
     </td>
   </tr>
