@@ -1,5 +1,6 @@
 "use client";
-
+import Link from "next/link";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -128,165 +129,200 @@ export default function StartSimulation() {
   };
 
   return (
-    <div
-      className="min-h-screen bg-rbcgray flex items-center justify-center"
-      style={{
-        backgroundImage: "url('bg2.svg')",
-        backgroundSize: "cover",
-        backgroundPosition: "50% 90%",
-      }}
-    >
-      <div className="flex gap-8 items-center">
-        {/* Left Steps */}
-        <div className="flex flex-col gap-6">
-          <StepCard
-            number="1"
-            title="Fill in Details of User"
-            description={[
-              "Enter the participant's basic information",
-              "Provide contact details for simulation",
-              "Select voice preferences for AI call",
-            ]}
-          />
-          <StepCard
-            number="2"
-            title="Send Urgent Email"
-            description={[
-              "Generate realistic phishing email",
-              "Simulate urgent account notice",
-              "Track email interaction metrics",
-            ]}
-          />
-        </div>
-
-        {/* Center Form */}
-
-        <Card className="max-w-2xl w-full mx-4">
-          <div className="flex flex-col items-center justify-center p-4 text-5xl font-black text-rbcblue text-center">
-            <img src="rbc.png" className="w-36" />
-            <p>
-              <span className="text-rbcdarkyellow">RB</span>veal
-            </p>{" "}
-            <div className="mb-4">
-              <Button
-                onClick={() => router.push("/")}
-                className="m-4 w-max h-12 text-lg font-semibold bg-rbcblue text-white"
+    <>
+      {/* <nav className="bg-white/90 backdrop-blur-md border border-white/20 fixed z-50 left-1/2 transform -translate-x-1/2 w-3/4 rounded-2xl shadow-2xl mt-4">
+        <div className="container mx-auto">
+          <div className="flex items-center justify-between py-4 px-4">
+            <Link href="/" className="flex items-center gap-2">
+              <motion.span
+                className="text-rbcblue font-black text-3xl md:text-4xl flex flex-row gap-2 justify-center items-center"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
               >
-                Go Back to Home
-              </Button>
-            </div>
-          </div>
-          <CardHeader className="space-y-4">
-            <CardTitle className="text-2xl">Start Your Simulation</CardTitle>
-            <CardDescription className="text-lg">
-              Please provide the following information to personalize your
-              phishing simulation experience.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit}>
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="text-lg">
-                    Name
-                  </Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="John Doe"
-                    required
-                    className="h-12 text-lg"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-lg">
-                    Email
-                  </Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="johndoe@example.com"
-                    required
-                    className="h-12 text-lg"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phoneNumber" className="text-lg">
-                    Phone Number
-                  </Label>
-                  <Input
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    type="tel"
-                    value={formData.phoneNumber}
-                    onChange={handleInputChange}
-                    placeholder="123-456-7890"
-                    required
-                    className="h-12 text-lg"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="trustedIndividual" className="text-lg">
-                    Familiar Voice
-                  </Label>
-                  <select
-                    id="trustedIndividual"
-                    name="trustedIndividual"
-                    value={formData.trustedIndividual}
-                    onChange={handleInputChange}
-                    required
-                    className="h-12 text-lg w-full"
-                  >
-                    <option value="">Select a Familiar Voice</option>
-                    <option value="Voice1">US Female</option>
-                    <option value="Voice2">US Female 2</option>
-                    <option value="Voice3">UK Female</option>
-                    <option value="Voice4">US Male</option>
-                    <option value="Voice5">Irish Male</option>
-                    <option value="Voice6">UK Male</option>
-                  </select>
-                </div>
-              </div>
-            </form>
-          </CardContent>
-          <CardFooter className="">
-            <Button
-              type="submit"
-              className="w-full h-12 text-2xl p-12 bg-rbcblue font-black"
-              onClick={handleSubmit}
-            >
-              Start the Simulation
-            </Button>
-          </CardFooter>
-        </Card>
+                <img src="rbc.png" className="w-12" />
+                <p>
+                  <span className="text-rbcdarkyellow">RB</span>veal
+                </p>{" "}
+              </motion.span>
+            </Link>
 
-        {/* Right Steps */}
-        <div className="flex flex-col gap-6">
-          <StepCard
-            number="3"
-            title="Enter Simulated RBC Banking"
-            description={[
-              "Access mock banking interface",
-              "Navigate security features",
-              "Experience realistic banking scenario",
-            ]}
-          />
-          <StepCard
-            number="4"
-            title="AI Scammer Phone Call"
-            description={[
-              "Receive simulated scam call",
-              "Experience AI voice interaction",
-              "Practice identifying fraud tactics",
-            ]}
-          />
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link href="/start">
+                <Button
+                  size="lg"
+                  className="bg-white p-6 text-xl text-rbcblue font-black hover:bg-rbcdarkyellow hover:text-black transition-all duration-300"
+                >
+                  Get started
+                </Button>
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </nav> */}
+
+      <div
+        className="min-h-screen bg-rbcgray flex items-center justify-center"
+        style={{
+          backgroundImage: "url('bg2.svg')",
+          backgroundSize: "cover",
+          backgroundPosition: "50% 90%",
+        }}
+      >
+        <div className="flex gap-8 items-center">
+          {/* Left Steps */}
+          <div className="flex flex-col gap-6">
+            <StepCard
+              number="1"
+              title="Fill in Details of User"
+              description={[
+                "Enter the participant's basic information",
+                "Provide contact details for simulation",
+                "Select voice preferences for AI call",
+              ]}
+            />
+            <StepCard
+              number="2"
+              title="Send Urgent Email"
+              description={[
+                "Generate realistic phishing email",
+                "Simulate urgent account notice",
+                "Track email interaction metrics",
+              ]}
+            />
+          </div>
+
+          {/* Center Form */}
+
+          <Card className="max-w-2xl w-full mx-4">
+            <div className="flex items-center justify-between p-4 text-5xl font-black text-rbcblue text-center">
+              <div className="flex flex-row justify-center items-center">
+                <img src="rbc.png" className="w-36" />
+                <p>
+                  <span className="text-rbcdarkyellow">RB</span>veal
+                </p>{" "}
+              </div>
+              <div className="mb-4">
+                <Button
+                  onClick={() => router.push("/")}
+                  className="m-4 w-max h-12 text-lg font-bold bg-white text-black hover:bg-rbcblue hover:text-white"
+                >
+                  Go Back to Home
+                </Button>
+              </div>
+            </div>
+            <CardHeader className="space-y-4">
+              <CardTitle className="text-2xl">Start Your Simulation</CardTitle>
+              <CardDescription className="text-lg">
+                Please provide the following information to personalize your
+                phishing simulation experience.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit}>
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className="text-lg">
+                      Name
+                    </Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="John Doe"
+                      required
+                      className="h-12 text-lg"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-lg">
+                      Email
+                    </Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="johndoe@example.com"
+                      required
+                      className="h-12 text-lg"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phoneNumber" className="text-lg">
+                      Phone Number
+                    </Label>
+                    <Input
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      type="tel"
+                      value={formData.phoneNumber}
+                      onChange={handleInputChange}
+                      placeholder="123-456-7890"
+                      required
+                      className="h-12 text-lg"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="trustedIndividual" className="text-lg">
+                      Familiar Voice
+                    </Label>
+                    <select
+                      id="trustedIndividual"
+                      name="trustedIndividual"
+                      value={formData.trustedIndividual}
+                      onChange={handleInputChange}
+                      required
+                      className="h-12 text-lg w-full"
+                    >
+                      <option value="">Select a Familiar Voice</option>
+                      <option value="Voice1">US Female</option>
+                      <option value="Voice2">US Female 2</option>
+                      <option value="Voice4">US Male</option>
+                      <option value="Voice3">UK Female</option>
+                      <option value="Voice6">UK Male</option>
+                      <option value="Voice5">Irish Male</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </CardContent>
+            <CardFooter className="">
+              <Button
+                type="submit"
+                className="w-full h-12 text-2xl p-12 bg-rbcblue font-black"
+                onClick={handleSubmit}
+              >
+                Start the Simulation
+              </Button>
+            </CardFooter>
+          </Card>
+
+          {/* Right Steps */}
+          <div className="flex flex-col gap-6">
+            <StepCard
+              number="3"
+              title="Enter Simulated RBC Banking"
+              description={[
+                "Access mock banking interface",
+                "Navigate security features",
+                "Experience realistic banking scenario",
+              ]}
+            />
+            <StepCard
+              number="4"
+              title="AI Scammer Phone Call"
+              description={[
+                "Receive simulated scam call",
+                "Experience AI voice interaction",
+                "Practice identifying fraud tactics",
+              ]}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

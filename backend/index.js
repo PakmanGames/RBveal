@@ -103,15 +103,15 @@ app.get("/api/callStatus", (req, res) => {
 app.post("/set-voice", (req, res) => {
   const { trustedIndividual } = req.body;
 
-  const VoiceModels = {
-    1: "aura-asteria-en",
-    2: "aura-luna-en",
-    3: "aura-stella-en",
-    4: "aura-arcas-en",
-    5: "aura-angus-en",
-    6: "aura-helios-en"
+const VoiceModels = {
+  1: "aura-asteria-en", // US Female
+  2: "aura-luna-en", // US Female 2
+  3: "aura-arcas-en", // US Male
+  4: "aura-stella-en", // UK Female
+  5: "aura-helios-en", // UK Male
+  6: "aura-angus-en", // Irish Male
+};
 
-  };
 
 
   const voiceNumber = parseInt(trustedIndividual.match(/\d+/)?.[0], 10);
