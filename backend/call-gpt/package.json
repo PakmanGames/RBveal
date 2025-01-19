@@ -1,36 +1,35 @@
 {
-  "name": "backend",
+  "name": "genai-phone",
   "version": "1.1.0",
+  "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "inbound": "node ./scripts/inbound-call.js",
+    "outbound": "node ./scripts/outbound-call.js",
     "test": "jest",
     "dev": "nodemon app.js",
-    "start": "node app.js",
-    "inbound": "node ./scripts/inbound-call.js",
-    "outbound": "node ./scripts/outbound-call.js"
+    "start": "node app.js"
   },
-  "author": "UoftHacks 12 Team",
+  "keywords": [],
+  "author": "Charlie Weems",
   "license": "MIT",
-  "description": "",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "nodemailer": "^6.9.16",
-    "nodemon": "^3.1.9",
-    "twilio": "^5.4.2",
     "@deepgram/sdk": "^3.3.4",
     "colors": "^1.4.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.19.2",
     "express-ws": "^5.0.2",
     "node-fetch": "^2.7.0",
     "openai": "^4.20.1",
+    "twilio": "^4.19.3",
     "uuid": "^9.0.1",
     "wavefile": "^11.0.0"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.4.11",
     "eslint": "^8.57.0",
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2"
   }
 }

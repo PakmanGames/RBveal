@@ -1,172 +1,278 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import twilio from 'twilio';
-import fs from 'fs';
+import express from "express";
 
+
+
+// Set max listeners before creating app
+import { EventEmitter } from 'events';
+EventEmitter.defaultMaxListeners = 15;
+
+
+import expressWs from "express-ws";
+import dotenv from "dotenv";
+import cors from "cors";
+import twilio from "twilio";
 import nodemailer from "nodemailer";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+import { readFile } from "fs/promises";
+
+// Import GPT services
+import GptService from "./call-gpt/services/gpt-service.js";
+import StreamService from "./call-gpt/services/stream-service.js";  // Changed to default import
+import TranscriptionService from "./call-gpt/services/transcription-service.js"; // Changed to default import
+import TextToSpeechService from "./call-gpt/services/tts-service.js";
+import { makeOutBoundCall } from "./call-gpt/scripts/outbound-call.js";
 
 
-import { readFile } from 'fs/promises';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+// Initialize environment and Express
 dotenv.config();
-
-const PORT = process.env.PORT || 5000;
 const app = express();
+const wsInstance = expressWs(app);
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-
-// Download the helper library from https://www.twilio.com/docs/node/install
-// Set environment variables for your credentials
-// Read more at http://twil.io/secure
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = twilio(accountSid, authToken);
-
+// Constants
+const PORT = process.env.PORT || 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Twilio setup
+const client = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
+let callStatus = "pending";
+let lastCallFrom = "";
+let lastCallTo = "";
+
+// Helper Functions
 async function readTwiMLFile() {
-    const filePath = join(__dirname, 'twiml.xml');
-    try {
-        const content = await readFile(filePath, 'utf8');
-        return content;
-    } catch (error) {
-        console.error('Error reading TwiML file:', error);
-        throw error;
-    }
+  const filePath = join(__dirname, "twiml.xml");
+  try {
+    return await readFile(filePath, "utf8");
+  } catch (error) {
+    console.error("Error reading TwiML file:", error);
+    throw error;
+  }
 }
 
-// call the user
-app.get('/api/call', async (req, res) => {
-    try {
-        const twimlContent = await readTwiMLFile();
-        
-        client.calls.create({
-            twiml: twimlContent,
-            to: process.env.TWILIO_USER_PHONE_NUMBER,
-            from: process.env.TWILIO_PHONE_NUMBER,
-            statusCallback: `${process.env.TAILSCALE_PUBLIC_URL}api/callStatus/`,
-            statusCallbackEvent: ["completed"], // post the call status only when it's completed
-            statusCallbackMethod: "POST",
-        })
-        .then(call => res.json({ success: true, callSid: call.sid }))
-        .catch(error => {
-            console.error('Error making call:', error);
-            res.status(500).json({ success: false, error: error.message });
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+
+function generateTwiML() {
+  const response = new twilio.twiml.VoiceResponse();
+  const connect = response.connect();
+  connect.stream({
+    url: `wss://jacobs-macbook-pro.tail8a7d7a.ts.net/connection`,
+  });
+  return response.toString();
+}
+
+
+// Routes
+app.get("/api/call", async (req, res) => {
+  try {
+    const twimlContent = generateTwiML();
+    const call = await client.calls.create({
+      twiml: twimlContent,
+      to: process.env.TWILIO_USER_PHONE_NUMBER,
+      from: process.env.TWILIO_PHONE_NUMBER,
+      statusCallback: `${process.env.TAILSCALE_PUBLIC_URL}api/callStatus/`,
+      statusCallbackEvent: ["completed"],
+      statusCallbackMethod: "POST",
+    });
+    res.json({ success: true, callSid: call.sid });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
-let callStatus = 'pending';
-let lastCallFrom = '';
-let lastCallTo = '';
-
-// post the call status
-app.post('/api/callStatus', (req, res) => {
-    const { CallSid, CallStatus, To, From } = req.body;
-    callStatus = CallStatus;
-    lastCallFrom = From;
-    lastCallTo = To;
-    console.log('CallSid:', CallSid);
-    console.log('CallStatus:', CallStatus);
-
-    if (CallStatus === 'completed') {
-        console.log(`Call from ${From} to ${To} has been completed.`);
-    }
-
-    res.status(200).send('Status received');
+// Call Status Routes
+app.post("/api/callStatus", (req, res) => {
+  const { CallSid, CallStatus, To, From } = req.body;
+  callStatus = CallStatus;
+  lastCallFrom = From;
+  lastCallTo = To;
+  console.log(`Call ${CallSid} status: ${CallStatus}`);
+  res.status(200).send("Status received");
 });
 
-// put the call status to pending
-app.put('/api/callStatus', (req, res) => {
-    callStatus = 'pending';
-    console.log('Call status has been reset to pending.');
-    res.json({ status: 'pending', details: callStatus });
+app.get("/api/callStatus", (req, res) => {
+  res.json({
+    status: callStatus === "completed" ? "completed" : "pending",
+    details: callStatus,
+  });
 });
 
-// const resetCallStatus = async () => {
-//     try {
-//       const response = await fetch(`${process.env.TAILSCALE_PUBLIC_URL}/api/callStatus`, {
-//         method: 'PUT',
-//         headers: {
-//           'Content-Type': 'application/json'
-//         }
-//       });
-      
-//       const data = await response.json();
-//       console.log('Status reset:', data);
-//       return data;
-//     } catch (error) {
-//       console.error('Error resetting call status:', error);
-//       throw error;
-//     }
-// };
-  
-//   // Usage:
-// await resetCallStatus();
-
-// get the call status
-app.get('/api/callStatus', (req, res) => {
-    if (callStatus === 'completed') {
-        console.log(`Call from ${lastCallFrom} to ${lastCallTo} has been completed.`);
-        res.json({ status: 'completed', details: callStatus });
-    } else {
-        console.log('Call is still in progress.');
-        res.json({ status: 'pending', details: callStatus });
-    }
-});
-
-
-
-// EMAIL BACKEND STUFF
-
-
-// Route to send an email
+// Email Route
 app.post("/send-email", async (req, res) => {
   const { email, subject, message } = req.body;
-
-  // Validate input
   if (!email || !subject || !message) {
-    return res.status(400).json({ message: "All fields (email, subject, message) are required." });
+    return res.status(400).json({ message: "Missing required fields" });
   }
 
   try {
-    // Configure the transporter for Gmail
     const transporter = nodemailer.createTransport({
       service: "gmail",
       secure: true,
       auth: {
-        user: process.env.EMAIL_USER, // Your Gmail address
-        pass: process.env.EMAIL_PASS, // Your Gmail app password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
-    // Send email
     await transporter.sendMail({
-      from: `RBC Royal Bank" <${process.env.EMAIL_USER}>`, // Use authenticated email
-      to: email, // Recipient's email
-      date: new Date().toISOString(), // Date of the email
-      subject: subject, // Email subject
+      from: `RBC Royal Bank <${process.env.EMAIL_USER}>`,
+      to: email,
+      date: new Date().toISOString(),
+      subject: subject,
       html: message,
     });
 
-    // Respond with success
     res.status(200).json({ message: "Email sent successfully!" });
   } catch (error) {
-    // Handle errors
-    console.error("Error sending email:", error.message);
     res.status(500).json({ message: `Failed to send email: ${error.message}` });
   }
 });
 
+// GPT Voice Routes
+app.post("/incoming", (req, res) => {
+  try {
+    const response = new twilio.twiml.VoiceResponse();
+    const connect = response.connect();
+    connect.stream({ url: `wss://${process.env.SERVER}/connection` });
+    res.type("text/xml");
+    res.send(response.toString());
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error handling incoming call");
+  }
+});
+// Update /startOutboundCall route
+app.post("/startOutboundCall", async (req, res) => {
+  try {
+    const { to } = req.body;
+    if (!to) {
+      return res.status(400).json({ error: "Phone number required" });
+    }
+    const formattedNumber = to.startsWith("+") ? to : `+${to}`;
+    const twimlContent = generateTwiML();
+    const call = await client.calls.create({
+      twiml: twimlContent,
+      to: formattedNumber,
+      from: process.env.TWILIO_PHONE_NUMBER
+    });
+    res.status(200).json({ message: "Call initiated", data: call });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
+// WebSocket Handler
+app.ws("/connection", (ws) => {
+  let streamSid;
+  let callSid;
+  let marks = [];
+  let interactionCount = 0;
+
+  // Initialize services
+  const gptService = new GptService();
+  const streamService = new StreamService(ws);
+  const transcriptionService = new TranscriptionService();
+  const ttsService = new TextToSpeechService({});
+
+  // Cleanup function to properly close all services
+  const cleanup = () => {
+    try {
+      transcriptionService.removeAllListeners();
+      gptService.removeAllListeners();
+      ttsService.removeAllListeners();
+      streamService.removeAllListeners();
+
+      // Clean up any ongoing processes
+      if (streamService.cleanup) streamService.cleanup();
+      if (transcriptionService.cleanup) transcriptionService.cleanup();
+      if (gptService.cleanup) gptService.cleanup();
+      if (ttsService.cleanup) ttsService.cleanup();
+    } catch (err) {
+      console.error("Cleanup error:", err);
+    }
+  };
+
+  ws.on("message", (data) => {
+    try {
+      const msg = JSON.parse(data);
+      switch (msg.event) {
+        case "start":
+          streamSid = msg.start.streamSid;
+          callSid = msg.start.callSid;
+          streamService.setStreamSid(streamSid);
+          gptService.setCallSid(callSid);
+          break;
+        case "media":
+          transcriptionService.send(msg.media.payload);
+          break;
+        case "mark":
+          marks = marks.filter((m) => m !== msg.mark.name);
+          break;
+        case "stop":
+          console.log(`Stream ${streamSid} ended`);
+          cleanup();
+          ws.close(1000, "Stream ended normally");
+          break;
+      }
+    } catch (err) {
+      console.error("Message handling error:", err);
+      cleanup();
+      ws.close(1011, "Internal server error");
+    }
+  });
+
+  transcriptionService.on("transcription", async (text) => {
+    if (text) {
+      try {
+        await gptService.completion(text, interactionCount++);
+      } catch (err) {
+        console.error("Transcription handling error:", err);
+      }
+    }
+  });
+
+  gptService.on("gptreply", async (reply, count) => {
+    try {
+      await ttsService.generate(reply, count);
+    } catch (err) {
+      console.error("GPT reply handling error:", err);
+    }
+  });
+
+  ttsService.on("speech", (index, audio, label, count) => {
+    try {
+      streamService.buffer(index, audio);
+    } catch (err) {
+      console.error("Speech handling error:", err);
+    }
+  });
+
+  streamService.on("audiosent", (label) => {
+    marks.push(label);
+  });
+
+  // Handle WebSocket closure events
+  ws.on("close", (code, reason) => {
+    console.log(`WebSocket closed with code ${code} and reason: ${reason}`);
+    cleanup();
+  });
+
+  ws.on("error", (err) => {
+    console.error("WebSocket error:", err);
+    cleanup();
+    ws.close(1011, "Internal server error");
+  });
+});
+
+// Start Server
 app.listen(PORT, () => {
-    console.log(`Server is running on port http://localhost:${PORT}/`);
+  console.log(`Server running on http://localhost:${PORT}/`);
 });
