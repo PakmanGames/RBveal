@@ -280,10 +280,10 @@ export default function StartSimulation() {
                       <option value="">Select a Familiar Voice</option>
                       <option value="Voice1">US Female</option>
                       <option value="Voice2">US Female 2</option>
-                      <option value="Voice4">US Male</option>
                       <option value="Voice3">UK Female</option>
-                      <option value="Voice6">UK Male</option>
+                      <option value="Voice4">US Male</option>
                       <option value="Voice5">Irish Male</option>
+                      <option value="Voice6">UK Male</option>
                     </select>
                   </div>
                 </div>

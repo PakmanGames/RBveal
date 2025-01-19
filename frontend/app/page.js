@@ -34,8 +34,6 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Top Navigation */}
 
-
-      
       <nav className="bg-white/90 backdrop-blur-md border border-white/20 fixed z-50 left-1/2 transform -translate-x-1/2 w-3/4 rounded-2xl shadow-2xl mt-4">
         <div className="container mx-auto">
           <div className="flex items-center justify-between py-4 px-4">
@@ -57,7 +55,7 @@ export default function Home() {
               <Link href="/start">
                 <Button
                   size="lg"
-                  className="bg-white p-6 text-xl text-rbcblue font-black hover:bg-rbcdarkyellow hover:text-black transition-all duration-300"
+                  className="bg-white p-6 text-xl text-rbcblue font-black hover:bg-rbcblue hover:text-white transition-all duration-300"
                 >
                   Get started
                 </Button>
@@ -76,7 +74,7 @@ export default function Home() {
         className=" min-h-screen flex justify-center items-center pt-16"
       >
         <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-12 items-center">
+          <div className="flex flex-col lg:flex-row gap-6 items-center">
             <div className="flex flex-col gap-6">
               <div className="bg-white p-12 rounded-2xl shadow-2xl">
                 <motion.div
@@ -118,7 +116,7 @@ export default function Home() {
                     <Link href="/start">
                       <Button
                         size="lg"
-                        className="bg-rbcblue p-12 text-4xl w-full text-white font-black hover:bg-green-500 transition-all duration-300"
+                        className="bg-white p-12 text-4xl w-full text-rbcblue font-black shadow-2xl rounded-2xl hover:bg-rbcblue hover:text-white transition-all duration-300"
                       >
                         Start Simulation
                       </Button>
@@ -223,7 +221,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="text-center py-4">
-                    <p className="inline-block bg-blue-600 text-white py-2 px-4 rounded text-lg font-semibold">
+                    <p className="inline-block bg-rbcblue text-white py-2 px-4 rounded text-lg font-semibold">
                       Verify My Account Now
                     </p>
                   </div>
@@ -298,9 +296,14 @@ export default function Home() {
               <StepLabel number={3} />
 
               <div className="bg-white p-8 rounded-2xl shadow-2xl">
-                <h1 className="font-black text-2xl text-center py-4">
-                  AI Scam Call
-                </h1>
+                <div className="">
+                  <h1 className="font-black text-2xl text-rbcblue text-center py-4 flex flex-row justify-center items-center gap-2">
+                    <p>
+                      <span className="text-rbcdarkyellow">RB</span>veal
+                    </p>
+                    <p className="text-black">AI Agent</p>{" "}
+                  </h1>
+                </div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -342,8 +345,11 @@ export default function Home() {
                       <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
                         <div className="text-center space-y-6">
                           {/* RBC Logo Circle */}
-                        
-                            <img src="hacker.png" className="w-36 h-36 rounded-full mx-auto" />
+
+                          <img
+                            src="hacker.png"
+                            className="w-36 h-36 rounded-full mx-auto"
+                          />
 
                           {/* Call Info */}
                           <div className="space-y-2">

@@ -43,7 +43,7 @@ const client = twilio(
 let callStatus = "pending";
 let lastCallFrom = "";
 let lastCallTo = "";
-global.voiceModel = "aura-asteria-en"
+global.voiceModel = "aura-asteria-en";
 let userName = "John Doe";
 // Helper Functions
 async function readTwiMLFile() {
@@ -83,55 +83,51 @@ app.get("/api/call", async (req, res) => {
   }
 });
 
-// Call Status Routes
+
 app.post("/api/callStatus", (req, res) => {
-  const { CallSid, CallStatus, To, From } = req.body;
+  console.log("Twilio Callback Body:", req.body);
+  // Destructure and set callStatus
+  const { CallSid, CallStatus } = req.body;
   callStatus = CallStatus;
-  lastCallFrom = From;
-  lastCallTo = To;
   console.log(`Call ${CallSid} status: ${CallStatus}`);
   res.status(200).send("Status received");
 });
 
+
 app.get("/api/callStatus", (req, res) => {
   res.json({
     status: callStatus === "completed" ? "completed" : "pending",
-    details: callStatus,
   });
 });
+
 
 app.post("/set-voice", (req, res) => {
   const { trustedIndividual } = req.body;
 
-const VoiceModels = {
-  1: "aura-asteria-en", // US Female
-  2: "aura-luna-en", // US Female 2
-  3: "aura-arcas-en", // US Male
-  4: "aura-stella-en", // UK Female
-  5: "aura-helios-en", // UK Male
-  6: "aura-angus-en", // Irish Male
-};
-
-
+  const VoiceModels = {
+    1: "aura-asteria-en",
+    2: "aura-luna-en",
+    3: "aura-stella-en",
+    4: "aura-arcas-en",
+    5: "aura-angus-en",
+    6: "aura-helios-en",
+  };
 
   const voiceNumber = parseInt(trustedIndividual.match(/\d+/)?.[0], 10);
 
   console.log("Received data:");
   console.log("Trusted Individual:", trustedIndividual);
   const selectedVoiceModel = VoiceModels[voiceNumber];
-  
+
   global.voiceModel = selectedVoiceModel;
-  
 
   res.status(200).send({ message: "Voice set successfully!" });
 });
 
-
-
 app.post("/saveUserName", (req, res) => {
   const { name } = req.body; // Assuming the data you want to save is the 'name'
-  userName= name; // Save the name to the 'userData' object
-  
+  userName = name; // Save the name to the 'userData' object
+
   res.status(200).send({ message: "User data saved successfully!" });
 });
 
@@ -199,8 +195,11 @@ app.post("/startOutboundCall", async (req, res) => {
     const twimlContent = generateTwiML();
     const call = await client.calls.create({
       twiml: twimlContent,
-      to: formattedNumber,
+      to: process.env.TWILIO_USER_PHONE_NUMBER,
       from: process.env.TWILIO_PHONE_NUMBER,
+      statusCallback: `${process.env.TAILSCALE_PUBLIC_URL}api/callStatus/`,
+      statusCallbackEvent: ["initiated", "ringing", "answered", "completed"],
+      statusCallbackMethod: "POST",
     });
     res.status(200).json({ message: "Call initiated", data: call });
   } catch (error) {
