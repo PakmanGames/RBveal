@@ -3,9 +3,10 @@ import Nav from "../components/Nav";
 import Summary from "../components/Summary";
 import Account from "../components/Account";
 import Footer from "../components/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function home() {
+  const [curname, setCurName] = useState("");
   const initiateCall = async () => {
     try {
       const response = await fetch("http://localhost:8080/startOutboundCall", {
@@ -23,12 +24,25 @@ export default function home() {
   };
 
   useEffect(() => {
+
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/getUserName"); // GET request to fetch data
+        const data = await response.json();
+        setCurName(data.name); // Update state with fetched name
+        console.log(data.name);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
     initiateCall();
   }, []);
   return (
     <main className="bg-white">
-      <Nav />
-      <Summary />
+      <Nav name={curname}/>
+      <Summary name={curname}/>
       <Account />
       <Footer />
     </main>

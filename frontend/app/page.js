@@ -384,7 +384,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {/* <footer className="fixed bottom-0 w-full py-2 text-center text-rbcdarkgray">UofT Hacks Developed and designed by Jacob Fu, Andy Pak, yurema, Aiden Suh</footer> */}
+      {/* <footer className="fixed bottom-0 w-full py-2 text-center text-rbcdarkgray">UofT Hacks Developed and designed by Jacob Fu, Andy Pak, Yarema Yaremchuk, Aiden Suh</footer> */}
     </div>
   );
 }

@@ -44,6 +44,7 @@ let callStatus = "pending";
 let lastCallFrom = "";
 let lastCallTo = "";
 global.voiceModel = "aura-asteria-en"
+let userName = "John Doe";
 // Helper Functions
 async function readTwiMLFile() {
   const filePath = join(__dirname, "twiml.xml");
@@ -124,10 +125,28 @@ app.post("/set-voice", (req, res) => {
   console.log("Trusted Individual:", trustedIndividual);
   const selectedVoiceModel = VoiceModels[voiceNumber];
   
-  // global.voiceModel = selectedVoiceModel;
+  global.voiceModel = selectedVoiceModel;
   
 
   res.status(200).send({ message: "Voice set successfully!" });
+});
+
+
+
+app.post("/saveUserName", (req, res) => {
+  const { name } = req.body; // Assuming the data you want to save is the 'name'
+  userName= name; // Save the name to the 'userData' object
+  
+  res.status(200).send({ message: "User data saved successfully!" });
+});
+
+// GET endpoint to retrieve the saved user data
+app.get("/getUserName", (req, res) => {
+  if (userName) {
+    res.json({ name: userName });
+  } else {
+    res.status(404).send({ message: "User data not found." });
+  }
 });
 
 // Email Route
