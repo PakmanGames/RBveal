@@ -25,7 +25,7 @@ import {
 export default function Home() {
 
   const StepLabel = ({ number }) => (
-    <div className=" relative w-1/3 top-8 right-4 bg-red-600 text-2xl text-center text-white font-bold px-4 py-2 rounded-lg z-10 shadow-2xl">Step {number}
+    <div className=" relative top-4 right-4 bg-rbcblue text-xl text-center text-white font-bold rounded-lg w-24 p-1 z-10 shadow-2xl">Step {number}
     </div>
   );
 
@@ -87,7 +87,7 @@ export default function Home() {
                 >
                   <div className="">
                     <motion.div
-                      className="text-rbcblue font-black text-6xl flex flex-row gap-2 items-center"
+                      className="text-rbcblue font-black text-8xl flex flex-row gap-2 items-center"
                       initial={{ opacity: 0, x: -50 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.3 }}
@@ -102,7 +102,7 @@ export default function Home() {
                   <div className="flex flex-col space-6">
                     <h1 className="flex items-center gap-4 bg-red-100 text-red-600 px-4 py-2 rounded text-2xl">
                       <AlertTriangle className="h-6 w-6" />
-                      Be Cyber Aware
+                      Be Cyber Aware. Try RBveal.
                     </h1>
                     <span className="my-4 font-light text-xl">
                       We safeguard our health. We safeguard our investments.{" "}
@@ -120,7 +120,7 @@ export default function Home() {
                         size="lg"
                         className="bg-rbcblue p-12 text-4xl w-full text-white font-black hover:bg-green-500 transition-all duration-300"
                       >
-                        Start Your Simulation
+                        Start Simulation
                       </Button>
                     </Link>
                   </motion.div>
