@@ -1,6 +1,3 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,23 +12,6 @@ import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 
 export default function ReviewTransfer() {
-  const router = useRouter();
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetch("http://localhost:8080/api/callStatus")
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === "completed") {
-            // Redirect to /success
-            router.push("/success");
-          }
-        })
-        .catch((err) => console.error(err));
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [router]);
   return (
     <>
       <Nav />
@@ -302,8 +282,10 @@ export default function ReviewTransfer() {
 
               {/* Action Buttons */}
               <div className="flex justify-between">
-                <Button variant="outline">Cancel</Button>
-                <Link href="/failure">
+<Link href="/success">
+                  <Button variant="outline">Cancel</Button>
+  
+</Link>                <Link href="/failure">
                   <Button>Send</Button>
                 </Link>{" "}
               </div>

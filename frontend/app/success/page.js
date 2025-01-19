@@ -21,6 +21,7 @@ const VideoPage = () => {
             style={{ paddingBottom: "75%" }}
           >
             <iframe
+              id="youtube-video-2"
               className="absolute top-0 left-0 w-full h-full"
               src="https://www.youtube.com/embed/XbWK4m6JMn0?si=5NqSI0MfkXU7WPNw&autoplay=1&mute=1&rel=0&controls=1"
               title="YouTube video"
