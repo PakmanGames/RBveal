@@ -293,8 +293,10 @@ export default function ReviewTransfer() {
                 {/* Action Buttons */}
                 <div className="flex justify-between">
                   <Button variant="outline">Cancel</Button>
-                  <Button>Send</Button>
-                </div>
+<Link href="/failure">
+                    <Button>Send</Button>
+  
+</Link>                </div>
               </form>
             </div>
           </div>
