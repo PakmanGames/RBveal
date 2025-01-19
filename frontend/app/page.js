@@ -44,9 +44,9 @@ export default function Home() {
               <Link href="/start">
                 <Button
                   size="lg"
-                  className="bg-white p-6 text-xl text-rbcblue font-black hover:bg-rbcdarkyellow hover:text-white transition-all duration-300"
+                  className="bg-white p-6 text-xl text-rbcblue font-black hover:bg-rbcdarkyellow hover:text-black transition-all duration-300"
                 >
-                  Start Your Simulation
+                  Get started
                 </Button>
               </Link>
             </motion.div>
@@ -92,7 +92,7 @@ export default function Home() {
                   <Link href="/start">
                     <Button
                       size="lg"
-                      className="bg-white p-12 text-4xl text-rbcblue font-black hover:bg-rbcdarkyellow hover:text-white transition-all duration-300"
+                      className="bg-rbcblue p-12 text-4xl text-white font-black hover:bg-rbcdarkyellow hover:text-black transition-all duration-300"
                     >
                       Start Your Simulation
                     </Button>
@@ -100,81 +100,6 @@ export default function Home() {
                 </motion.div>
               </motion.div>
             </div>
-
-            <div className="container mx-auto px-4 py-8">
-              <div className="bg-white p-8 rounded-2xl shadow-2xl">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                  className="flex justify-center items-center"
-                >
-                  {/* iPhone Frame */}
-                  <div className="relative bg-black rounded-[40px] p-3 shadow-xl w-[280px]">
-                    {/* iPhone Notch */}
-                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[40%] h-6 bg-black rounded-b-3xl z-20"></div>
-
-                    {/* Screen */}
-                    <div className="relative bg-white rounded-[30px] overflow-hidden aspect-[9/19.5]">
-                      {/* Status Bar */}
-                      <div className="h-8 bg-[#262626] flex justify-between items-center px-4 pt-1">
-                        <span className="text-[10px] text-white">9:41</span>
-                        <div className="flex gap-1">
-                          <span className="text-[10px] text-white">5G</span>
-                          <span className="text-[10px] text-white">100%</span>
-                        </div>
-                      </div>
-
-                      {/* Call Screen */}
-                      <div className="absolute inset-0 bg-[#262626] flex flex-col items-center justify-center p-6">
-                        <div className="text-center space-y-6">
-                          {/* RBC Logo Circle */}
-                          <div className="w-24 h-24 bg-[#1F4098] rounded-full mx-auto flex items-center justify-center">
-                            <span className="text-3xl text-white font-bold">
-                              RBC
-                            </span>
-                          </div>
-
-                          {/* Call Info */}
-                          <div className="space-y-2">
-                            <h3 className="text-white text-2xl font-semibold">
-                              RBC Royal Bank
-                            </h3>
-                            <p className="text-gray-400 text-sm">
-                              incoming call...
-                            </p>
-                          </div>
-
-                          {/* Call Buttons */}
-                          <div className="flex justify-center gap-8 mt-8">
-                            {/* Decline Button */}
-                            <div className="flex flex-col items-center">
-                              <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center">
-                                <span className="text-white text-2xl">×</span>
-                              </div>
-                              <span className="text-gray-400 text-sm mt-2">
-                                Decline
-                              </span>
-                            </div>
-
-                            {/* Accept Button */}
-                            <div className="flex flex-col items-center">
-                              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
-                                <span className="text-white text-2xl">✓</span>
-                              </div>
-                              <span className="text-gray-400 text-sm mt-2">
-                                Accept
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-
             <div className="flex flex-col w-full gap-6">
               <motion.div
                 className=""
@@ -286,6 +211,81 @@ export default function Home() {
                 </div>
               </motion.div>
             </div>
+            <div className="container mx-auto px-4 py-8">
+              <div className="bg-white p-8 rounded-2xl shadow-2xl">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  className="flex justify-center items-center"
+                >
+                  {/* iPhone Frame */}
+                  <div className="relative bg-black rounded-[40px] p-3 shadow-xl w-[280px]">
+                    {/* iPhone Notch */}
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[40%] h-6 bg-black rounded-b-3xl z-20"></div>
+
+                    {/* Screen */}
+                    <div className="relative bg-white rounded-[30px] overflow-hidden aspect-[9/19.5]">
+                      {/* Status Bar */}
+                      <div className="h-8 bg-[#262626] flex justify-between items-center px-4 pt-1">
+                        <span className="text-[10px] text-white">9:41</span>
+                        <div className="flex gap-1">
+                          <span className="text-[10px] text-white">5G</span>
+                          <span className="text-[10px] text-white">100%</span>
+                        </div>
+                      </div>
+
+                      {/* Call Screen */}
+                      <div className="absolute inset-0 bg-[#262626] flex flex-col items-center justify-center p-6">
+                        <div className="text-center space-y-6">
+                          {/* RBC Logo Circle */}
+                          <div className="w-24 h-24 bg-[#1F4098] rounded-full mx-auto flex items-center justify-center">
+                            <span className="text-3xl text-white font-bold">
+                              RBC
+                            </span>
+                          </div>
+
+                          {/* Call Info */}
+                          <div className="space-y-2">
+                            <h3 className="text-white text-2xl font-semibold">
+                              RBC Royal Bank
+                            </h3>
+                            <p className="text-gray-400 text-sm">
+                              incoming call...
+                            </p>
+                          </div>
+
+                          {/* Call Buttons */}
+                          <div className="flex justify-center gap-8 mt-8">
+                            {/* Decline Button */}
+                            <div className="flex flex-col items-center">
+                              <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center">
+                                <span className="text-white text-2xl">×</span>
+                              </div>
+                              <span className="text-gray-400 text-sm mt-2">
+                                Decline
+                              </span>
+                            </div>
+
+                            {/* Accept Button */}
+                            <div className="flex flex-col items-center">
+                              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
+                                <span className="text-white text-2xl">✓</span>
+                              </div>
+                              <span className="text-gray-400 text-sm mt-2">
+                                Accept
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+
+            
           </div>
         </div>
       </div>

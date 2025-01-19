@@ -140,7 +140,7 @@ export default function StartSimulation() {
           <div className="mb-4">
             <Button
               onClick={() => router.push("/")}
-              className="w-full h-12 text-lg font-semibold bg-blue-500 text-white"
+              className="m-4 w-1/3 h-12 text-lg font-semibold bg-rbcblue text-white"
             >
               Go Back to Home
             </Button>
