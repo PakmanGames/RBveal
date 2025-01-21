@@ -19,8 +19,6 @@ Our project was [submitted](https://dorahacks.io/buidl/21687) to [UofTHacks 12](
 ### Preview Images
 ![Landing Page](./images/rbvealcover.png)
 ![RBC Clone](./images/simulatedrbc.png)
-![Success Page](./images/success.png)
-![Failure Page](./images/failure.png)
 
 ## 🖥️ How we built it
 
