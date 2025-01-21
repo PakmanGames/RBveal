@@ -11,6 +11,15 @@ RBveal addresses the problem of cybersecurity for students by simulating real-wo
 - Multi-Stage AI-Driven simulation, simulate a phone call from a bank representative who mimics real-world phishing tactics
 - An interactive learning experience for students to learn how to respond to cyber threats
 
+<div style="display: flex; justify-content: center; align-items: center; gap: 5px;">
+    <strong>Demo Video Link: </strong>
+    <a href="https://www.youtube.com/watch?v=v8duvEudLiU" target="_blank"><img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white"></a>
+</div>
+
+
+Our project was [submitted](https://dorahacks.io/buidl/21687) to [UofTHacks 12](https://dorahacks.io/hackathon/uofthacks/buidl) and won [1st Place for RBC's sponsor prize](https://dorahacks.io/hackathon/uofthacks/winner), winning $1000.
+
+### Preview Images
 ![Landing Page](./images/rbvealcover.png)
 ![RBC Clone](./images/simulatedrbc.png)
 ![Success Page](./images/success.png)
@@ -23,6 +32,19 @@ RBveal addresses the problem of cybersecurity for students by simulating real-wo
 **Frontend:** Next.js, React, Tailwind CSS  
 **Backend:** Express.js, Node.js, Nodemailer, tailscale  
 **Live Audio Transcription:** twilio, OpenAI, Deepgram
+
+### **Tech Stack**
+<div align="center">
+    <img src="https://img.shields.io/badge/next%20js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white">
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+    <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E">
+    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white">
+    <img src="https://img.shields.io/badge/Express%20js-000000?style=for-the-badge&logo=express&logoColor=white">
+    <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white">
+    <img src="https://img.shields.io/badge/Twilio-F22F46?style=for-the-badge&logo=Twilio&logoColor=white">
+    <img src="https://img.shields.io/badge/Framer-black?style=for-the-badge&logo=framer&logoColor=blue">
+    <img src="https://img.shields.io/badge/shadcn%2Fui-000000?style=for-the-badge&logo=shadcnui&logoColor=white">
+</div>
 
 ## 🤔 Challenges we ran into
 
