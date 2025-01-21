@@ -11,11 +11,8 @@ RBveal addresses the problem of cybersecurity for students by simulating real-wo
 - Multi-Stage AI-Driven simulation, simulate a phone call from a bank representative who mimics real-world phishing tactics
 - An interactive learning experience for students to learn how to respond to cyber threats
 
-<div style="display: flex; justify-content: center; align-items: center; gap: 5px;">
-    <strong>Demo Video Link: </strong>
-    <a href="https://www.youtube.com/watch?v=v8duvEudLiU" target="_blank"><img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white"></a>
-</div>
-
+### Demo Video
+[![Demo Video](https://img.youtube.com/vi/v8duvEudLiU/0.jpg)](https://www.youtube.com/watch?v=v8duvEudLiU)
 
 Our project was [submitted](https://dorahacks.io/buidl/21687) to [UofTHacks 12](https://dorahacks.io/hackathon/uofthacks/buidl) and won [1st Place for RBC's sponsor prize](https://dorahacks.io/hackathon/uofthacks/winner), winning $1000.
 
